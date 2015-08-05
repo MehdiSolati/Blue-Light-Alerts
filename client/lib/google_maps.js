@@ -63,7 +63,7 @@ gmaps = {
                                        position.coords.longitude);
 
 var icon = {
-            url: "http://www.marlonh.com/arcgis/images/pegman.png", // url
+            url : 'http://graph.facebook.com/' + (Meteor.user().services.facebook.id) + '/picture?type=square&height=160&width=160', // url
             scaledSize: new google.maps.Size(40, 40)
           };
 
@@ -95,7 +95,7 @@ setInterval(function(){
                                        position.coords.longitude);
 
 var icon = {
-            url: "http://www.marlonh.com/arcgis/images/pegman.png", // url
+            url : 'http://graph.facebook.com/' + (Meteor.user().services.facebook.id) + '/picture?type=square&height=160&width=160', // url
             scaledSize: new google.maps.Size(40, 40)
           };
 
@@ -111,9 +111,17 @@ var icon = {
 
 
       console.log(pos);
+      document.getElementById("latLongDiv").innerHTML = pos;
     });
   },1000)
 
+
+
+// document.getElementById("record").addEventListener("click", recordPolyline);
+
+// function recordPolyline() {
+//     document.getElementById("demo").innerHTML = "YOU CLICKED ME!";
+// }
 
 
 
