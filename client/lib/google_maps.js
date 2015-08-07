@@ -12,7 +12,40 @@ gmaps = {
     markerData: [],
 
 
+ // add a marker given our formatted marker data object
+    addMarker: function(marker) {
+        var gLatLng = new google.maps.LatLng(marker.lat, marker.lng);
+        var gMarker = new google.maps.Marker({
+            position: gLatLng,
+            map: this.map,
+            title: marker.title,
+            // animation: google.maps.Animation.DROP,
+            icon:'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+        });
+        this.latLngs.push(gLatLng);
+        this.markers.push(gMarker);
+        this.markerData.push(marker);
+        return gMarker;
+    },
  
+    // calculate and move the bound box based on our markers
+    calcBounds: function() {
+        var bounds = new google.maps.LatLngBounds();
+        for (var i = 0, latLngLength = this.latLngs.length; i < latLngLength; i++) {
+            bounds.extend(this.latLngs[i]);
+        }
+        this.map.fitBounds(bounds);
+    },
+ 
+    // check if a marker already exists
+    markerExists: function(key, val) {
+        _.each(this.markers, function(storedMarker) {
+            if (storedMarker[key] == val)
+                return true;
+        });
+        return false;
+    },
+
     // intialize the map
     initialize: function() {
       var marker = null;
@@ -118,9 +151,36 @@ var icon = {
   },1000)
 
 
+  var myPathCoordinates = [];
+
+  for (var i = 2; i < Polylines.findOne({_id: Meteor.user().profile.polyline}).position.length; i++) {
+    lat = Polylines.findOne({_id: Meteor.user().profile.polyline}).position[i][0];
+    lon = Polylines.findOne({_id: Meteor.user().profile.polyline}).position[i][1];
 
 
-for (var i = 0; i < friendList.findOne({ userId: Meteor.userId()}).friends.length; i++) {
+myPathCoordinates.push(new google.maps.LatLng(lat, lon));
+    }
+
+
+  
+
+  var myPath = new google.maps.Polyline({
+    path: myPathCoordinates,
+    geodesic: true,
+    strokeColor: '#FF0000',
+    strokeOpacity: 1.0,
+    strokeWeight: 2
+  });
+
+  myPath.setMap(map);
+
+
+
+
+
+
+
+  for (var i = 0; i < friendList.findOne({ userId: Meteor.userId()}).friends.length; i++) {
       friendsId = friendList.findOne({ userId: Meteor.userId()}).friends[i];
       friendsPositionLat = Markers.findOne({ userId: friendsId}).positionLat;
       friendsPositionLon = Markers.findOne({ userId: friendsId}).positionLon;
@@ -145,20 +205,5 @@ for (var i = 0; i < friendList.findOne({ userId: Meteor.userId()}).friends.lengt
     }
 
 
-  var flightPlanCoordinates = [
-    new google.maps.LatLng(37.772323, -122.214897),
-    new google.maps.LatLng(21.291982, -157.821856),
-    new google.maps.LatLng(-18.142599, 178.431),
-    new google.maps.LatLng(-27.46758, 153.027892)
-  ];
-  var flightPath = new google.maps.Polyline({
-    path: flightPlanCoordinates,
-    geodesic: true,
-    strokeColor: '#FF0000',
-    strokeOpacity: 1.0,
-    strokeWeight: 2
-  });
-
-  flightPath.setMap(map);
 }
 }
