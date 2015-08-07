@@ -1,0 +1,30 @@
+<template name="getNumber">
+	<form>
+		<div class="row">
+			<label class="control-label col-md-12">Before We Continue... We Need Your Number!</label>
+			
+
+			<label class="control-label col-md-4">Cell Number:</label>
+			<div class="col-md-8">
+				<input class="form-control col-md-8" type="tel" id="signUpCell">
+			</div>
+			<label class="control-label col-md-4">Your Cell Provider:</label>
+			<div class="col-md-8">
+				<select class="form-control" id="signUpProvider">
+					<option value="@txt.att.net">AT&T</option>
+					<option value="@messaging.sprintpcs.com">Sprint</option>
+					<option value="@tmomail.net">T-Mobile</option>
+					<option value="@vtext.com">Verizon</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-4"></div>
+			<div class="col-sm-4">
+				<button type="submit" class="btn btn-primary centerButtons">Sign Up</button>
+			</div>
+			<div class="col-sm-4"></div>
+		</div>
+	</form>
+</template>

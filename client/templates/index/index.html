@@ -1,18 +1,86 @@
 <template name="index">
 	{{#if currentUser}}
-	<div class="main">
-		{{currentUser.services.facebook.name}} -
-        {{currentUser.services.facebook.gender}}
-       
-        <button id="logout">Logout</button>
+	
+{{> userCheck}}
+<div id="needMobile" style="display:block;">
+	<div class="container">
+  <div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8"><div class="content">
 
-				{{> map}}
+{{> getNumber}}
+
+
+    </div></div>
+    <div class="col-sm-2"></div>
+  </div>
+</div>
+</div>
+
+
+
+
+	<div id="main" style="display:none;">
+		
+
+
+        <div class="container">
+  <div class="row">
+    <div class="col-sm-9" id="myMap"><div class="content">
+{{currentUser.services.facebook.name}} -
+        {{currentUser.services.facebook.gender}}
+{{> map}}
+
+<div id="myPath" style="display:none;">
+  RECORD A PATH
+    </div>
+    </div>
+
+
+    </div>
+
+
+
+
+    <div class="col-sm-9" id="myFriends" style="display:none;"><div class="content">
+      {{> myFriends}}
+    </div>
+    </div>
+
+
+
+
+    <div class="col-sm-3"><div class="content">
+    {{> friendsList}}</div></div>
+  </div>
+</div>
+
+
+ 
+        
+
+				
 		</div>
 		{{else}}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+    	<div class="content">
+<button id="facebook-login" class="btn btn-default"> Login with Facebook</button>
+    	</div>
+    
+</div>
+    <div class="col-sm-2"></div>
+  </div>
+</div>
+		
 
-		<button id="facebook-login" class="btn btn-default"> Login with Facebook</button>
 
 		{{/if}}
 </template>
+
+<template name="userCheck">
+	</template>
 
 
