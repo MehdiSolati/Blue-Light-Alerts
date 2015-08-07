@@ -12,8 +12,7 @@ navigator.geolocation.getCurrentPosition(function(position) {
      if (Meteor.user().profile.polyline === undefined) {
 
         var polylinesId = Polylines.insert({
-          userId: (Meteor.user()._id),
-          position: [position.coords.latitude, position.coords.longitude]
+          userId: (Meteor.user()._id)
           });
         Meteor.users.update({
           _id: Meteor.userId()
@@ -42,7 +41,7 @@ recordPath = setInterval(function(){
         });
     })
 
-  },5000)
+  },2000)
       
     
   });
@@ -50,6 +49,17 @@ recordPath = setInterval(function(){
 $('#stop').click(function(){
       clearInterval(recordPath);
       console.log("You stopped the button");
+      window.location.reload();
     });
 
     };
+
+
+
+    Template.myPath.events({
+    'click #reset': function() {
+
+      Polylines.update({_id : Meteor.user().profile.polyline}, {$unset: {position : null}});
+      window.location.reload();
+  
+}});

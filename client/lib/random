@@ -92,3 +92,20 @@ myPathCoordinates.push(new google.maps.LatLng(lat, lon));
             }).profile.name) + ' is here!')
       });
     }
+
+
+
+
+    Template.myPath.events({
+    'click #reset': function() {
+
+    Meteor.users.update({
+          _id: Meteor.userId()
+        }, {
+          $set: {
+            'profile.polyline': null
+          }
+        });
+
+  Polylines.remove({_id : Meteor.user().profile.polyline});
+}});
