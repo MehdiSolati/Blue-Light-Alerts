@@ -1,4 +1,4 @@
-
+if (Meteor.isClient) {
 
 Template.index.rendered = function(){
 if(Polylines.findOne({_id : Meteor.user().profile.polyline}).position === undefined){
@@ -83,3 +83,4 @@ $('#stop').click(function(){
       window.location.reload();
   
 }});
+  }
