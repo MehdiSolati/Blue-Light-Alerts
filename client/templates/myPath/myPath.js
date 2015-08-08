@@ -1,7 +1,26 @@
+
+
+Template.index.rendered = function(){
+if(Polylines.findOne({_id : Meteor.user().profile.polyline}).position === undefined){
+
+document.getElementById("recordPath").style.display = "block";
+document.getElementById("resetPath").style.display = "none";
+
+} else {
+
+document.getElementById("recordPath").style.display = "none";
+document.getElementById("resetPath").style.display = "block";
+
+}
+
+    };
+
+
+
 Template.myPath.rendered = function(){
 	var recordPath;
     $('#go').click(function(){
-      
+      alert("We're recording your path now! Just hit 'Stop' to stop the recording.");
 
 
 
@@ -41,14 +60,14 @@ recordPath = setInterval(function(){
         });
     })
 
-  },2000)
+  },15000)
       
     
   });
 
 $('#stop').click(function(){
       clearInterval(recordPath);
-      console.log("You stopped the button");
+      alert("We stopped your recording! Get ready to see your path!!!");
       window.location.reload();
     });
 
@@ -60,6 +79,7 @@ $('#stop').click(function(){
     'click #reset': function() {
 
       Polylines.update({_id : Meteor.user().profile.polyline}, {$unset: {position : null}});
+      alert("Poooof, your path is gone! You can record a new path now.");
       window.location.reload();
   
 }});

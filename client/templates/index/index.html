@@ -2,7 +2,7 @@
 	{{#if currentUser}}
 	
 {{> userCheck}}
-<div id="needMobile" style="display:block;">
+<div id="needMobile" style="display:none;">
 	<div class="container">
   <div class="row">
     <div class="col-sm-2"></div>
@@ -20,20 +20,19 @@
 
 
 
-	<div id="main" style="display:none;">
+	<div id="main" style="display:block;">
 		
 
 
         <div class="container">
   <div class="row">
     <div class="col-sm-9" id="myMap"><div class="content">
-{{currentUser.services.facebook.name}} -
-        {{currentUser.services.facebook.gender}}
-{{> map}}
-
 <div id="myPath" style="display:none;">
   {{> myPath}}
     </div>
+
+{{> map}}
+
     </div>
 
 

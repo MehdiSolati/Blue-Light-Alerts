@@ -16,8 +16,7 @@ if (Meteor.isClient) {
         }
       });
 
-      document.getElementById('needMobile').style.display = 'none';
-    document.getElementById('main').style.display = 'block';
+      window.setTimeout(function() {window.location.reload();}, 1000);
     }
   });
 }

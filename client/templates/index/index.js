@@ -5,13 +5,10 @@ Template.index.events({
                 throw new Meteor.Error("Facebook login failed");
             }
         });
-        window.setTimeout(function() {window.location.reload();}, 3000);
     },
 });
 
 
-
-if (Meteor.isClient) {
 
     Template.userCheck.rendered = function() {
   if (Meteor.user().profile.number === undefined) {
@@ -24,6 +21,3 @@ if (Meteor.isClient) {
 
 
 };
-
-
-    }

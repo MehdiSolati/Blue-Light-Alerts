@@ -10,3 +10,14 @@ body {
     box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
 }
+
+.prettyButtonDynamic {
+    background-color: #52B3FF;
+    color: white;
+    margin-bottom: 2px;
+}
+.prettyButtonDynamic:hover {
+    background-color: #29597F;
+    color: white;
+    margin-bottom: 2px;
+}
