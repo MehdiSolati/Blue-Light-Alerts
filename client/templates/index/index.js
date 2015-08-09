@@ -22,4 +22,11 @@ Template.index.events({
 
 };
 
+Template.index.events({
+    'click #findMe': function(event) {
 
+    map.setZoom(18);
+    map.setCenter(marker.getPosition());
+
+    },
+});

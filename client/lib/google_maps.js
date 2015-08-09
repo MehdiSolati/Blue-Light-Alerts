@@ -52,8 +52,9 @@ gmaps = {
   var mapOptions = {
     zoom: 18
   };
-  map = new google.maps.Map(document.getElementById('map-canvas'),
+  var map = new google.maps.Map(document.getElementById('map-canvas'),
       mapOptions);
+  var infowindow = new google.maps.InfoWindow();
 
   // Try HTML5 geolocation
   if(navigator.geolocation) {
@@ -74,6 +75,11 @@ var icon = {
         content: 'You are here.',
         icon: icon
       });
+
+
+
+
+
       map.setCenter(pos);
     }, function() {
       handleNoGeolocation(true);
@@ -85,6 +91,8 @@ var icon = {
     // Browser doesn't support Geolocation
     handleNoGeolocation(false);
   }
+
+
 
 
 
@@ -148,12 +156,12 @@ var icon = {
 
     });
 
+google.maps.event.addListener(marker, 'click', function() {
+    map.setZoom(18);
+    map.setCenter(marker.getPosition());
+  });
+
   },1000)
-
-
-  
-
-
 
 
 
@@ -172,7 +180,7 @@ var icon = {
           };
 
 
- marker = new google.maps.Marker({
+ friend = new google.maps.Marker({
         animation: google.maps.Animation.DROP,
         map: map,
         position: new google.maps.LatLng(friendsPositionLat, friendsPositionLon),
@@ -181,6 +189,27 @@ var icon = {
               _id: friendsId
             }).profile.name) + ' is here!')
       });
+
+
+google.maps.event.addListener(friend, 'click', function() {
+    map.setCenter(friend.getPosition());
+    infowindow.setContent(this.title);
+            infowindow.open(map, this);
+  });
+
+google.maps.event.addListener(friend, 'dblclick', function() {
+  console.log("clicked");
+            var email = Meteor.users.findOne({
+              _id: friendsId
+            }).profile.smsAddress;
+            var message = (Meteor.user().services.facebook.first_name + " wants to meet up, here are some directions...https://www.google.com/maps/dir/" + (friendsPositionLat) + "," + (friendsPositionLon) + "/" + (Meteor.user().profile.position.G) + "," + (Meteor.user().profile.position.K));
+            Meteor.call('sendEmail', email, message);
+            window.alert('SMS sent.', 'success');
+          });
+
+
+
+
     }
 
 
