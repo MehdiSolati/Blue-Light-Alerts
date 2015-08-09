@@ -49,6 +49,8 @@ Template.layout.events({
 myPathCoordinates.push(new google.maps.LatLng(lat, lon));
     }
 
+    console.log(myPathCoordinates);
+
 
   
 
@@ -61,6 +63,27 @@ myPathCoordinates.push(new google.maps.LatLng(lat, lon));
   });
 
   myPath.setMap(map);
+
+
+  routeBoxer = new RouteBoxer();
+  var boxes = routeBoxer.box(myPathCoordinates, .1)
+  drawBoxes(boxes);
+
+  function drawBoxes(boxes) {
+
+      boxpolys = new Array(boxes.length);
+      for (var i = 0; i < boxes.length; i++) {
+
+        boxpolys[i] = new google.maps.Rectangle({
+          bounds: boxes[i],
+          fillOpacity: 0,
+          strokeOpacity: 1.0,
+          strokeColor: '#000000',
+          strokeWeight: 3,
+          map: map
+        });
+      }
+    }
 }
 catch(err) {
     //Block of code to handle errors
