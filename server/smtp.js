@@ -7,7 +7,7 @@ Meteor.methods({
     this.unblock();
     Email.send({
       to: to,
-      // subject: "From Orde.red",
+      subject: "Blue Light Texts:",
       text: text
     });
   }

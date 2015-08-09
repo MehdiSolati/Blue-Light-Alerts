@@ -11,48 +11,13 @@ gmaps = {
     // our formatted marker data objects
     markerData: [],
 
-
- // add a marker given our formatted marker data object
-    addMarker: function(marker) {
-        var gLatLng = new google.maps.LatLng(marker.lat, marker.lng);
-        var gMarker = new google.maps.Marker({
-            position: gLatLng,
-            map: this.map,
-            title: marker.title,
-            // animation: google.maps.Animation.DROP,
-            icon:'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-        });
-        this.latLngs.push(gLatLng);
-        this.markers.push(gMarker);
-        this.markerData.push(marker);
-        return gMarker;
-    },
- 
-    // calculate and move the bound box based on our markers
-    calcBounds: function() {
-        var bounds = new google.maps.LatLngBounds();
-        for (var i = 0, latLngLength = this.latLngs.length; i < latLngLength; i++) {
-            bounds.extend(this.latLngs[i]);
-        }
-        this.map.fitBounds(bounds);
-    },
- 
-    // check if a marker already exists
-    markerExists: function(key, val) {
-        _.each(this.markers, function(storedMarker) {
-            if (storedMarker[key] == val)
-                return true;
-        });
-        return false;
-    },
-
     // intialize the map
     initialize: function() {
       var marker = null;
   var mapOptions = {
     zoom: 18
   };
-  var map = new google.maps.Map(document.getElementById('map-canvas'),
+  map = new google.maps.Map(document.getElementById('map-canvas'),
       mapOptions);
   var infowindow = new google.maps.InfoWindow();
 
@@ -172,6 +137,7 @@ google.maps.event.addListener(marker, 'click', function() {
       friendsPositionLat = Markers.findOne({ userId: friendsId}).positionLat;
       friendsPositionLon = Markers.findOne({ userId: friendsId}).positionLon;
       friendsPicture = Markers.findOne({ userId: friendsId}).img;
+      sms = Meteor.users.findOne({_id: friendsId}).profile.smsAddress;
 
 
       icon = {
@@ -183,7 +149,10 @@ google.maps.event.addListener(marker, 'click', function() {
  friend = new google.maps.Marker({
         animation: google.maps.Animation.DROP,
         map: map,
+        lat: friendsPositionLat,
+        lon: friendsPositionLon,
         position: new google.maps.LatLng(friendsPositionLat, friendsPositionLon),
+        sms : sms,
         icon: icon,
         title: ((Meteor.users.findOne({
               _id: friendsId
@@ -198,11 +167,8 @@ google.maps.event.addListener(friend, 'click', function() {
   });
 
 google.maps.event.addListener(friend, 'dblclick', function() {
-  console.log("clicked");
-            var email = Meteor.users.findOne({
-              _id: friendsId
-            }).profile.smsAddress;
-            var message = (Meteor.user().services.facebook.first_name + " wants to meet up, here are some directions...https://www.google.com/maps/dir/" + (friendsPositionLat) + "," + (friendsPositionLon) + "/" + (Meteor.user().profile.position.G) + "," + (Meteor.user().profile.position.K));
+             email = this.sms;
+             message = (Meteor.user().services.facebook.first_name + " wants to meet up, here are some directions...https://www.google.com/maps/dir/" + (this.lat) + "," + (this.lon) + "/" + (Meteor.user().profile.position.G) + "," + (Meteor.user().profile.position.K));
             Meteor.call('sendEmail', email, message);
             window.alert('SMS sent.', 'success');
           });
