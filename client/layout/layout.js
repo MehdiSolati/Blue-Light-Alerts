@@ -40,11 +40,13 @@ Template.layout.events({
     'click #myPathNav': function(event) {
   try {
     var myPathCoordinates = [];
-
+console.log('clicked myPathNav');
   for (var i = 0; i < Polylines.findOne({_id: Meteor.user().profile.polyline}).position.length; i++) {
     lat = Polylines.findOne({_id: Meteor.user().profile.polyline}).position[i][0];
     lon = Polylines.findOne({_id: Meteor.user().profile.polyline}).position[i][1];
-
+    console.log('test polylines retrieval');
+    console.log(lat);
+    console.log(lon);
 
 myPathCoordinates.push(new google.maps.LatLng(lat, lon));
     }
@@ -66,7 +68,7 @@ myPathCoordinates.push(new google.maps.LatLng(lat, lon));
 
 
   routeBoxer = new RouteBoxer();
-  boxes = routeBoxer.box(myPathCoordinates, .1)
+  boxes = routeBoxer.box(myPathCoordinates, .1);
   Session.set('boxRange', boxes);
   drawBoxes(boxes);
 
@@ -115,7 +117,7 @@ myPathCoordinates.push(new google.maps.LatLng(lat, lon));
 }
 catch(err) {
     //Block of code to handle errors
-    console.log('error');
+    console.log('error: '+err);
 }
 },
 });

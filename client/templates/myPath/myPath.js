@@ -98,16 +98,16 @@ $('#stop').click(function(){
   }
 
         var flightPlanCoordinates = [
-          {'lat':1,'lng':5},
-          {'lat':2,'lng':5},
-          {'lat':2,'lng':6}
+          {'lat':40.1,'lng':-72.2},
+          {'lat':41.17231789,'lng':-73.228},
+          {'lat':42.1,'lng':-73.2}
         ];
 
         for(var x=0;x<flightPlanCoordinates.length;x++){
                 Polylines.update({
           _id: Meteor.user().profile.polyline
         }, {$addToSet: {
-          'position': [1.0, 1.0]
+          'position': [39.1, -72.2]
         }});
 
                 Polylines.update(
