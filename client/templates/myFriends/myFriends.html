@@ -1,0 +1,63 @@
+<template name="myFriends">
+<div class="container" style="max-width:100%;">
+  <div class="row">
+    <div class="col-sm-12">
+{{> addFriend}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+    {{> friendRequests}}</div>
+    <div class="col-sm-6">
+    {{> friendsPending}}</div>
+  </div>
+</div>
+
+
+
+
+</template>
+
+
+<template name="addFriend">
+	<form>
+		<p>What's your friend's cell number?
+			<input type="tel" id="friendsCell">
+			<input type="submit" value="Add A Friend!">
+		</p>
+	</form>
+</template>
+
+<template name="friendsList">
+	<h3>Friends List</h3>
+	<ol>
+		{{#each friendsList}}
+		<li>{{this.name}}</li>
+		{{/each}}
+	</ol>
+</template>
+
+<template name="friendRequests">
+	{{#if currentUser}}
+	<h3>Friends Request</h3>
+	<ol>
+		{{#each friendRequests}}
+		<li>{{this.name}}
+			<i id="{{this.id}}" class="glyphicon glyphicon-ok tiny" style="color:green;"></i>
+			<i id="{{this.id}}" class="glyphicon glyphicon-remove tiny" style="color:red;"></i>
+		</li>
+		{{/each}}
+	</ol>
+	{{/if}}
+</template>
+
+<template name="friendsPending">
+	{{#if currentUser}}
+	<h3>Pending Friends</h3>
+	<ol>
+		{{#each friendsPending}}
+		<li>{{this}}</li>
+		{{/each}}
+	</ol>
+	{{/if}}
+</template>
