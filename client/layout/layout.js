@@ -66,8 +66,36 @@ myPathCoordinates.push(new google.maps.LatLng(lat, lon));
 
 
   routeBoxer = new RouteBoxer();
-  var boxes = routeBoxer.box(myPathCoordinates, .1)
+  boxes = routeBoxer.box(myPathCoordinates, .1)
+  Session.set('boxRange', boxes);
   drawBoxes(boxes);
+
+  trackPath = setInterval(function(){
+    console.log("inside trackpath");
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        var offtrack=false;
+        var outcome="";
+        for(var x=0;x<Session.get('boxRange').length && offtrack==false;x++){
+          var thisBox = Session.get('boxRange')[x];
+
+          var dr = new google.maps.LatLng(Session.get('boxRange')[x].Ca.j, Session.get('boxRange')[x].Ia.G);
+          var ul = new google.maps.LatLng(Session.get('boxRange')[x].Ca.j, Session.get('boxRange')[x].Ia.G);
+          var bounds = new google.maps.LatLngBounds(dr,ul);
+
+          if(bounds.contains(pos)){
+            //insert alert code here
+            offtrack=true;
+            outcome="I'm ok in step "+x+" of my trip.";
+          }
+        }
+        if(offtrack){
+            //insert alert code here
+            console.log(outcome);
+          }else{console.log("Off Track Place Call Here");}
+      })
+
+  },15000)
 
   function drawBoxes(boxes) {
 
@@ -87,6 +115,7 @@ myPathCoordinates.push(new google.maps.LatLng(lat, lon));
 }
 catch(err) {
     //Block of code to handle errors
+    console.log('error');
 }
 },
 });

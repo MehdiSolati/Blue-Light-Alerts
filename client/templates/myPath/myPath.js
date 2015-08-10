@@ -42,9 +42,6 @@ navigator.geolocation.getCurrentPosition(function(position) {
         });
 
   }})
-
-
-
     
 recordPath = setInterval(function(){
   navigator.geolocation.getCurrentPosition(function(position) {
@@ -80,7 +77,88 @@ $('#stop').click(function(){
 
       Polylines.update({_id : Meteor.user().profile.polyline}, {$unset: {position : null}});
       alert("Poooof, your path is gone! You can record a new path now.");
-      window.location.reload();
-  
-}});
+      window.location.reload();  
+    },
+
+    'click #test': function(){
+           if (Meteor.user().profile.polyline == undefined) {
+
+        var polylinesId = Polylines.insert({
+          userId: (Meteor.user()._id)
+          });
+        console.log('polyLinesId');
+        Meteor.users.update({
+          _id: Meteor.userId()
+        }, {
+          $set: {
+            'profile.polyline': polylinesId
+          }
+        });
+
+  }
+
+        var flightPlanCoordinates = [
+          {'lat':1,'lng':5},
+          {'lat':2,'lng':5},
+          {'lat':2,'lng':6}
+        ];
+
+        for(var x=0;x<flightPlanCoordinates.length;x++){
+                Polylines.update({
+          _id: Meteor.user().profile.polyline
+        }, {$addToSet: {
+          'position': [1.0, 1.0]
+        }});
+
+                Polylines.update(
+                  {_id : Meteor.user().profile.polyline}, 
+                  {$addToSet: {
+                    'position': [
+                      flightPlanCoordinates[x].lat, 
+                      flightPlanCoordinates[x].lng
+                      ]
+                    }
+                  });
+                console.log('insert'+flightPlanCoordinates[x].lat +":"+flightPlanCoordinates[x].lng);
+        }
+    },
+    'click #testLocation': function(){
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        var offtrack=false;
+        var outcome="";
+        for(var x=0;x<Session.get('boxRange').length && offtrack==false;x++){
+          var thisBox = Session.get('boxRange')[x];
+          //console.log(thisBox.contains(pos));
+          console.log('full item');
+          var dr = new google.maps.LatLng(Session.get('boxRange')[x].Ca.j, Session.get('boxRange')[x].Ia.G);
+          var ul = new google.maps.LatLng(Session.get('boxRange')[x].Ca.j, Session.get('boxRange')[x].Ia.G);
+          var bounds = new google.maps.LatLngBounds(dr,ul);
+          var center = bounds.getCenter();
+          console.log('center test'+bounds.contains(pos));
+          if(bounds.contains(pos)){
+            //insert alert code here
+            offtrack=true;
+            outcome="I'm ok in step "+x+" of my trip.";
+          }
+          //delete dummy test code and draws
+          var center = bounds.getCenter();
+          console.log(Session.get('boxRange')[x]);
+          console.log('custom bounds below');
+          console.log(bounds);
+          console.log(bounds.contains(pos));
+          console.log('center test'+bounds.contains(center));
+
+        }
+        //end silly for loop, actually do stuff here
+        if(offtrack){
+            //insert alert code here
+            console.log("I'm ok in box"+x);
+          }else{
+            console.log("Off Track Place Call Here");
+          }
+      });
+
+    }
+});
   }
