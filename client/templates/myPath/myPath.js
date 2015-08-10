@@ -52,6 +52,7 @@ recordPath = setInterval(function(){
           _id: Meteor.user().profile.polyline
         }, {$addToSet: {
           'position': [position.coords.latitude, position.coords.longitude]
+
         }
           
         });

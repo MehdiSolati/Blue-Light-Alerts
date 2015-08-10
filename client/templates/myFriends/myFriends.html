@@ -29,12 +29,15 @@
 </template>
 
 <template name="friendsList">
-	<h3>Friends List</h3>
+	<div class="container fancyfriend col-md-12">
+	<h3>Friends List - Distances</h3>
 	<ol>
 		{{#each friendsList}}
-		<li>{{this.name}}</li>
+		<li>{{this.name}} - {{this.distance}} miles </li>
+		
 		{{/each}}
 	</ol>
+</div>
 </template>
 
 <template name="friendRequests">
@@ -42,7 +45,7 @@
 	<h3>Friends Request</h3>
 	<ol>
 		{{#each friendRequests}}
-		<li>{{this.name}}
+		<li class="name">{{this.name}}
 			<i id="{{this.id}}" class="glyphicon glyphicon-ok tiny" style="color:green;"></i>
 			<i id="{{this.id}}" class="glyphicon glyphicon-remove tiny" style="color:red;"></i>
 		</li>

@@ -7,18 +7,48 @@ if (Meteor.isClient) {
           userId: Meteor.userId()
         }).friends.length)) {
         friendID = friendList.findOne({
-          userId: Meteor.userId()
-        }).friends[friendsCounter];
+          userId: Meteor.userId()}).friends[friendsCounter];
+
+
+        lat2 = Markers.findOne({userId : friendID}).positionLat;
+        lon2 = Markers.findOne({userId : friendID}).positionLon;
+        lat1=Meteor.user().profile.position.G;
+        lon1=Meteor.user().profile.position.K;
+
+var R = 6371; // km 
+//has a problem with the .toRad() method below.
+var x1 = lat2-lat1;
+var dLat = x1.toRad();  
+var x2 = lon2-lon1;
+var dLon = x2.toRad();  
+var a = Math.sin(dLat/2) * Math.sin(dLat/2) + 
+                Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) * 
+                Math.sin(dLon/2) * Math.sin(dLon/2);  
+var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+var distance = R * c; 
+var miles=distance*0.621371;
+var calorie=miles*85;
+
+
+
+
+var rounded = Math.round( miles * 10 ) / 10;
+var fixed = rounded.toFixed(2);
+
+
         list.push({
           name: Meteor.users.findOne({
             _id: friendID
           }).profile.name
-        });
+        , distance :fixed });
         friendsCounter++;
       }
       return list;
     }
   });
+
+
+
   Template.friendRequests.helpers({
     'friendRequests': function(template) {
       var friendsCounter = 0;
