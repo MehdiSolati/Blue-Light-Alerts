@@ -48,7 +48,7 @@ recordPath = setInterval(function(){
      var pos = new google.maps.LatLng(position.coords.latitude,
                                        position.coords.longitude);
 //if testmode is active overwrite locale data with dummy data
-     if(Session.get('testMode')){
+     if(Session.get('testMode')==true){
       pos = new google.maps.LatLng(Session.get('startLat'), Session.get('startLng'))
      }
 

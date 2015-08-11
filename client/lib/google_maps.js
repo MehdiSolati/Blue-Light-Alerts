@@ -27,7 +27,7 @@ gmaps = {
       var pos = new google.maps.LatLng(position.coords.latitude,
                                        position.coords.longitude);
 
-      if(Session.get('testMode')){
+      if(Session.get('testMode')==true){
         console.log('raw vals below');
         console.log(Session.get('startLat'));
         console.log(Session.get('startLng'));
@@ -76,14 +76,12 @@ setInterval(function(){
      //if testmode is active overwrite locale data with dummy data
 
      if(Session.get('testMode')==true){
-      lat=Session.get('startLat')+.00001;
-          lng=Session.get('startLng')+.00001;
+      lat=Session.get('startLat')+.0001;
+      lng=Session.get('startLng')+.0001;
           
           Session.set('startLat',lat);
           Session.set('startLng',lng);
       pos = new google.maps.LatLng(Session.get('startLat'), Session.get('startLng'))
-     }else{
-
      }
 
 var icon = {
