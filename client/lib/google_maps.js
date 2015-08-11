@@ -27,7 +27,14 @@ gmaps = {
       var pos = new google.maps.LatLng(position.coords.latitude,
                                        position.coords.longitude);
 
-var icon = {
+      if(Session.get('testMode')){
+        console.log('raw vals below');
+        console.log(Session.get('startLat'));
+        console.log(Session.get('startLng'));
+        
+      }
+
+      var icon = {
             url : 'http://graph.facebook.com/' + (Meteor.user().services.facebook.id) + '/picture?type=square&height=160&width=160', // url
             scaledSize: new google.maps.Size(40, 40)
           };
@@ -62,9 +69,22 @@ var icon = {
 
 
 setInterval(function(){
+  
   navigator.geolocation.getCurrentPosition(function(position) {
      var pos = new google.maps.LatLng(position.coords.latitude,
                                        position.coords.longitude);
+     //if testmode is active overwrite locale data with dummy data
+
+     if(Session.get('testMode')==true){
+      lat=Session.get('startLat')+.01;
+          lng=Session.get('startLng')+.01;
+          
+          Session.set('startLat',lat);
+          Session.set('startLng',lng);
+      pos = new google.maps.LatLng(Session.get('startLat'), Session.get('startLng'))
+     }else{
+
+     }
 
 var icon = {
             url : 'http://graph.facebook.com/' + (Meteor.user().services.facebook.id) + '/picture?type=square&height=160&width=160', // url
@@ -84,7 +104,7 @@ var icon = {
 
       //Update users marker in collection for users friends to see
   if (Meteor.user().profile.marker === undefined) {
-  
+    console.log("Marker undefined");
       Meteor.users.update({
         _id: Meteor.userId()
       }, {
@@ -94,10 +114,15 @@ var icon = {
       });
         var markerId = Markers.insert({
           userId: (Meteor.user()._id),
-          positionLat: position.coords.latitude,
-          positionLon: position.coords.longitude,
+          //switching to use session objects
+          // positionLat: position.coords.latitude,
+          // positionLon: position.coords.longitude,
+          positionLat: pos.lat(),
+          positionLon: pos.lng(),
+          //comment out above code to switch back to using HTML location
           img: ('http://graph.facebook.com/' + (Meteor.user().services.facebook.id) + '/picture?type=square&height=160&width=160')
         });
+        console.log('new marker');
         Meteor.users.update({
           _id: Meteor.userId()
         }, {
@@ -112,8 +137,12 @@ var icon = {
           _id: Meteor.user().profile.marker
         }, {
           $set: {
-          positionLat: position.coords.latitude,
-          positionLon: position.coords.longitude
+          //switching to use session objects
+          // positionLat: position.coords.latitude,
+          // positionLon: position.coords.longitude,
+          positionLat: pos.lat(),
+          positionLon: pos.lng()
+          //comment out above code to switch back to using HTML location
           }
         });
     }

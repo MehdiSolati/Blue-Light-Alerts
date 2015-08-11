@@ -47,11 +47,16 @@ recordPath = setInterval(function(){
   navigator.geolocation.getCurrentPosition(function(position) {
      var pos = new google.maps.LatLng(position.coords.latitude,
                                        position.coords.longitude);
+//if testmode is active overwrite locale data with dummy data
+     if(Session.get('testMode')){
+      pos = new google.maps.LatLng(Session.get('startLat'), Session.get('startLng'))
+     }
 
+     console.log(pos.lat()+" : lng "+pos.lng());
       Polylines.update({
           _id: Meteor.user().profile.polyline
         }, {$addToSet: {
-          'position': [position.coords.latitude, position.coords.longitude]
+          'position': [pos.lat(), pos.lng()]
 
         }
           
@@ -126,6 +131,11 @@ $('#stop').click(function(){
     'click #testLocation': function(){
       navigator.geolocation.getCurrentPosition(function(position) {
         var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+        //if testmode is active overwrite locale data with dummy data
+        if(Session.get('testMode')){
+          pos=Session.get('testPos');
+        }
         var offtrack=false;
         var outcome="";
         for(var x=0;x<Session.get('boxRange').length && offtrack==false;x++){
