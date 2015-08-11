@@ -98,17 +98,17 @@ $('#stop').click(function(){
 
   }
 
+
         var flightPlanCoordinates = [
-          {'lat':1,'lng':5},
-          {'lat':2,'lng':5},
-          {'lat':2,'lng':6}
+          {'lat':42.0531,'lng':-73.53983},
+          {'lat':42.0531,'lng':-74.53983}
         ];
 
         for(var x=0;x<flightPlanCoordinates.length;x++){
                 Polylines.update({
           _id: Meteor.user().profile.polyline
         }, {$addToSet: {
-          'position': [1.0, 1.0]
+          'position': [41.0531, -73.53983]
         }});
 
                 Polylines.update(
@@ -132,11 +132,14 @@ $('#stop').click(function(){
           var thisBox = Session.get('boxRange')[x];
           //console.log(thisBox.contains(pos));
           console.log('full item');
-          var dr = new google.maps.LatLng(Session.get('boxRange')[x].Ca.j, Session.get('boxRange')[x].Ia.G);
-          var ul = new google.maps.LatLng(Session.get('boxRange')[x].Ca.j, Session.get('boxRange')[x].Ia.G);
-          var bounds = new google.maps.LatLngBounds(dr,ul);
+          console.log(thisBox);
+          var ne = new google.maps.LatLng(Session.get('boxRange')[x].Ia.j, Session.get('boxRange')[x].Ca.G);
+          var sw = new google.maps.LatLng(Session.get('boxRange')[x].Ia.G, Session.get('boxRange')[x].Ca.j);
+          var bounds = new google.maps.LatLngBounds(sw,ne);
+          console.log('my box ' +bounds);
           var center = bounds.getCenter();
-          console.log('center test'+bounds.contains(pos));
+          console.log('center test '+bounds.contains(center));
+          console.log('pos test '+bounds.contains(pos));
           if(bounds.contains(pos)){
             //insert alert code here
             offtrack=true;
