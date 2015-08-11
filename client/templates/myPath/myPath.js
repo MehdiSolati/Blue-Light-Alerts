@@ -87,12 +87,11 @@ $('#stop').click(function(){
     },
 
     'click #test': function(){
-           if (Meteor.user().profile.polyline == undefined) {
-
+      if (Meteor.user().profile.polyline == undefined) {
         var polylinesId = Polylines.insert({
           userId: (Meteor.user()._id)
           });
-        console.log('polyLinesId');
+        
         Meteor.users.update({
           _id: Meteor.userId()
         }, {
@@ -100,32 +99,34 @@ $('#stop').click(function(){
             'profile.polyline': polylinesId
           }
         });
-
   }
 
-
+        //hard coded route locations for test
         var flightPlanCoordinates = [
           {'lat':42.0531,'lng':-73.53983},
           {'lat':42.0531,'lng':-74.53983}
         ];
 
-        for(var x=0;x<flightPlanCoordinates.length;x++){
-                Polylines.update({
-          _id: Meteor.user().profile.polyline
-        }, {$addToSet: {
-          'position': [41.0531, -73.53983]
-        }});
+        //write test route to polylines table
+        for(var x=0;x<flightPlanCoordinates.length;x++)
+        {
+          Polylines.update({
+            _id: Meteor.user().profile.polyline
+          }, {$addToSet: {
+            'position': [41.0531, -73.53983]
+          }
+        });
 
-                Polylines.update(
-                  {_id : Meteor.user().profile.polyline}, 
-                  {$addToSet: {
-                    'position': [
-                      flightPlanCoordinates[x].lat, 
-                      flightPlanCoordinates[x].lng
-                      ]
-                    }
-                  });
-                console.log('insert'+flightPlanCoordinates[x].lat +":"+flightPlanCoordinates[x].lng);
+          Polylines.update(
+            {_id : Meteor.user().profile.polyline}, 
+            {$addToSet: {
+              'position': [
+              flightPlanCoordinates[x].lat, 
+              flightPlanCoordinates[x].lng
+              ]
+            }
+          });
+          console.log('insert'+flightPlanCoordinates[x].lat +":"+flightPlanCoordinates[x].lng);
         }
     },
     'click #testLocation': function(){

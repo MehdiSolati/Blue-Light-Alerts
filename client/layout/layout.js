@@ -1,9 +1,11 @@
 Session.set('routeStep',0);
+//current point difference set to less than 1 meter for idling. 
 Session.set('speed',.1);
 Session.set('idle',0);
 Session.set('start',false);
+//hardcore testMode flag true or false, true will overwrite GPS to step north east by .00001 lat and long, or 1 m step lat and long
 Session.set('testMode',true);
-
+//hardcode start location here
 Session.set('startLat',41.173);
 Session.set('startLng',-73.226);
 
@@ -89,7 +91,7 @@ Template.layout.events({
             var outcome="I'm Off Track";
             var boxes = Session.get('boxRange');
 
-            //traverse boxes to check, check last known box and next two boxes
+            //traverse next two bounding boxes to check for location
             for(var x=Session.get('routeStep');x<Session.get('boxRange').length||x<Session.get('routeStep')+2 && offtrack==false;x++){
               //routeboxer returns CA Objects are long max and min, IA Objects are the Lat max and min, not latlngbounds objects
               var ne = new google.maps.LatLng(Session.get('boxRange')[x].Ia.j, Session.get('boxRange')[x].Ca.G);
@@ -112,6 +114,7 @@ Template.layout.events({
           var counter = Session.get('idle')+1;
             Session.set('idle',counter);
             console.log(Session.get('idle'));
+            //fire idle responses for 1 minute if user has stopped, 2 minutes if user has not started yet.
             if(Session.get('idle')>=4){
               if(Session.get('start'))
                 console.log('Person has idled for 1 minute, insert panic code here, continue tracking idle time');
