@@ -3,8 +3,9 @@ Session.set('routeStep',0);
 Session.set('speed',1);
 Session.set('idle',0);
 Session.set('start',false);
-//hardcore testMode flag true or false, true will overwrite GPS to step north east by .00001 lat and long, or 1 m step lat and long
-Session.set('testMode',false);
+//hardcode testMode flag true or false, true will overwrite GPS to step north east by .00001 lat and long, or 1 m step lat and long
+Session.set('testMode',true);
+Session.set('idleAlert',false);
 //hardcode start location here
 Session.set('startLat',41.173);
 Session.set('startLng',-73.226);
@@ -71,7 +72,6 @@ Template.layout.events({
   drawBoxes(boxes);
 
   trackPath = setInterval(function(){
-    console.log("inside trackpath");
       navigator.geolocation.getCurrentPosition(function(position) {
         //if test mode is active, adjust dummy locale data by .01
         if(Session.get('testMode')==true){
@@ -83,24 +83,21 @@ Template.layout.events({
             Session.set('lastPos',pos);
           }
           //fire if greater than min distance from previous pos
-          console.log(Session.get('lastPos'));
-          console.log(pos);
-          console.log("greater than min speed: "+google.maps.geometry.spherical.computeDistanceBetween(Session.get('lastPos'),pos));
-          if(google.maps.geometry.spherical.computeDistanceBetween(Session.get('lastPos'),pos)>Session.get('speed')){
-
-            console.log("greater than min speed: "+google.maps.geometry.spherical.computeDistanceBetween(Session.get('lastPos'),pos));
-            
+          // console.log(Session.get('lastPos'));
+          // console.log(pos);
+          // console.log("greater than min speed: "+google.maps.geometry.spherical.computeDistanceBetween(Session.get('lastPos'),pos));
+          if(google.maps.geometry.spherical.computeDistanceBetween(Session.get('lastPos'),pos)>Session.get('speed')){            
             Session.set('start',true);
             Session.set('lastPos',pos);
             Session.set('idle',0);
-
+            Session.set('idleAlert',false);
             var offtrack=false;
             var outcome="I'm Off Track";
             var boxes = Session.get('boxRange');
 
             //traverse next two bounding boxes to check for location
-            if(Session.get('routeStep')<Session.get('boxRange').length){
-                for(var x=Session.get('routeStep');x<Session.get('boxRange').length||x<Session.get('routeStep')+2 && offtrack==false;x++){
+            if(Session.get('routeStep')<Session.get('boxRange').length)
+                for(var x=Session.get('routeStep');x<Session.get('boxRange').length&&x<Session.get('routeStep')+2 && offtrack==false;x++){
                 //routeboxer returns CA Objects are long max and min, IA Objects are the Lat max and min, not latlngbounds objects
                 var ne = new google.maps.LatLng(Session.get('boxRange')[x].Ia.j, Session.get('boxRange')[x].Ca.G);
                 var sw = new google.maps.LatLng(Session.get('boxRange')[x].Ia.G, Session.get('boxRange')[x].Ca.j);
@@ -113,25 +110,29 @@ Template.layout.events({
                   outcome="I'm ok, in step "+Session.get('routeStep')+" of my trip.";
                 }
               }
-            }else{
-              console.log("End of path at box "+Session.get('routeStep'));
+            else{
+              alert("End of path at box "+Session.get('routeStep'));
             }
-            console.log(outcome);
+            if(offtrack==false)
+              alert(outcome);
             Session.set('lastPos',pos);
           }
           //fire if less than min distance from previous pos
         else{
-          console.log('you havent moved');
+          alert('you havent moved, counter: '+Session.get('idle'));
 
           var counter = Session.get('idle')+1;
             Session.set('idle',counter);
-            console.log(Session.get('idle'));
             //fire idle responses for 1 minute if user has stopped, 2 minutes if user has
-            if(Session.get('idle')>=4){
-              if(Session.get('start'))
-                console.log('Person has idled for 1 minute, insert panic code here, continue tracking idle time');
-              else if(Session.get('idle')>=8)
-                console.log('Person has idled for 2 minutes at start, insert panic code here, continue tracking idle time');
+            if(Session.get('idle')>=4&&Session.get('idleAlert')==false){
+              if(Session.get('start')){
+                alert('Person has idled for 1 minute, insert panic code here, continue tracking idle time');
+                Session.set('idleAlert',true);
+              }
+              else if(Session.get('idle')>=8){
+                alert('Person has idled for 2 minutes at start, insert panic code here, continue tracking idle time');
+                Session.set('idleAlert',true);
+              }
             }
         }
         
