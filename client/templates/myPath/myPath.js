@@ -134,43 +134,25 @@ $('#stop').click(function(){
 
         //if testmode is active overwrite locale data with dummy data
         if(Session.get('testMode')){
-          pos=Session.get('testPos');
+          pos = new google.maps.LatLng(Session.get('startLat'), Session.get('startLng'))
         }
         var offtrack=false;
         var outcome="";
-        for(var x=0;x<Session.get('boxRange').length && offtrack==false;x++){
-          var thisBox = Session.get('boxRange')[x];
-          //console.log(thisBox.contains(pos));
-          console.log('full item');
-          console.log(thisBox);
-          var ne = new google.maps.LatLng(Session.get('boxRange')[x].Ia.j, Session.get('boxRange')[x].Ca.G);
-          var sw = new google.maps.LatLng(Session.get('boxRange')[x].Ia.G, Session.get('boxRange')[x].Ca.j);
-          var bounds = new google.maps.LatLngBounds(sw,ne);
-          console.log('my box ' +bounds);
-          var center = bounds.getCenter();
-          console.log('center test '+bounds.contains(center));
-          console.log('pos test '+bounds.contains(pos));
-          if(bounds.contains(pos)){
-            //insert alert code here
-            offtrack=true;
-            outcome="I'm ok in step "+x+" of my trip.";
-          }
-          //delete dummy test code and draws
-          var center = bounds.getCenter();
-          console.log(Session.get('boxRange')[x]);
-          console.log('custom bounds below');
-          console.log(bounds);
-          console.log(bounds.contains(pos));
-          console.log('center test'+bounds.contains(center));
+            for(var x=Session.get('routeStep');x<Session.get('boxRange').length&&x<Session.get('routeStep')+2 && offtrack==false;x++){
+              //routeboxer returns CA Objects are long max and min, IA Objects are the Lat max and min, not latlngbounds objects
+              console.log("iterations "+x)
+              var ne = new google.maps.LatLng(Session.get('boxRange')[x].Ia.j, Session.get('boxRange')[x].Ca.G);
+              var sw = new google.maps.LatLng(Session.get('boxRange')[x].Ia.G, Session.get('boxRange')[x].Ca.j);
+              var bounds = new google.maps.LatLngBounds(sw,ne);
 
-        }
-        //end silly for loop, actually do stuff here
-        if(offtrack){
-            //insert alert code here
-            console.log("I'm ok in box"+x);
-          }else{
-            console.log("Off Track Place Call Here");
-          }
+              if(bounds.contains(pos)){
+                Session.set('routeStep',x);
+                //insert alert code here
+                offtrack=true;
+                outcome="I'm ok, in step "+Session.get('routeStep')+" of my trip.";
+              }
+            }
+            console.log(outcome);
       });
 
     }

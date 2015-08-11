@@ -1,10 +1,11 @@
-Session.set('routeStep',"not found");
-Session.set('speed',1);
+Session.set('routeStep',0);
+Session.set('speed',.1);
 Session.set('idle',0);
+Session.set('start',false);
 Session.set('testMode',true);
 
-Session.set('startLat',11.1723);
-Session.set('startLng',-93.22823);
+Session.set('startLat',41.173);
+Session.set('startLng',-73.226);
 
 Template.layout.events({
 'click #logout': function(event) {
@@ -72,23 +73,24 @@ Template.layout.events({
       navigator.geolocation.getCurrentPosition(function(position) {
         //if test mode is active, adjust dummy locale data by .01
         if(Session.get('testMode')){
-          pos = new google.maps.LatLng(lat, lng);
+          pos = new google.maps.LatLng(Session.get('startLat'), Session.get('startLng'));
         }else
           var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-        if(Session.get('start')===undefined)
-          Session.set('start',pos);
-        else
-          Session.set('lastPos',pos);
-        //fire if minimal start distance away from start.
-        if(google.maps.geometry.spherical.computeDistanceBetween(Session.get('start'),pos)>Session.get('speed')){
+
           //fire if greater than min distance from previous pos
-          if(google.maps.geometry.spherical.computeDistanceBetween(Session.get('start'),pos)<Session.get('speed')){
+          if(google.maps.geometry.spherical.computeDistanceBetween(Session.get('lastPos'),pos)>Session.get('speed')){
+            console.log("greater than min speed"+google.maps.geometry.spherical.computeDistanceBetween(Session.get('lastPos'),pos));
+            
+            Session.set('start',true);
+            Session.set('lastPos',pos);
             Session.set('idle',0);
+
             var offtrack=false;
             var outcome="I'm Off Track";
             var boxes = Session.get('boxRange');
 
-            for(var x=0;x<Session.get('boxRange').length && offtrack==false;x++){
+            //traverse boxes to check, check last known box and next two boxes
+            for(var x=Session.get('routeStep');x<Session.get('boxRange').length||x<Session.get('routeStep')+2 && offtrack==false;x++){
               //routeboxer returns CA Objects are long max and min, IA Objects are the Lat max and min, not latlngbounds objects
               var ne = new google.maps.LatLng(Session.get('boxRange')[x].Ia.j, Session.get('boxRange')[x].Ca.G);
               var sw = new google.maps.LatLng(Session.get('boxRange')[x].Ia.G, Session.get('boxRange')[x].Ca.j);
@@ -104,20 +106,23 @@ Template.layout.events({
             console.log(outcome);
           }
           //fire if less than min distance from previous pos
-          else{
-            var counter = Session.get('idle');
-            Session.set('idle',counter++);
-            if(Session.get('idle')>=4){
-              console.log('Person has idled for 1 minute, insert panic code here, continue tracking idle time');
-            }
-          }//end if less than min distance from previous pos
-        }//end if greater than min distance from start
         else{
           console.log('you havent moved');
+
+          var counter = Session.get('idle')+1;
+            Session.set('idle',counter);
+            console.log(Session.get('idle'));
+            if(Session.get('idle')>=4){
+              if(Session.get('start'))
+                console.log('Person has idled for 1 minute, insert panic code here, continue tracking idle time');
+              else if(Session.get('idle')>=8)
+                console.log('Person has idled for 2 minutes at start, insert panic code here, continue tracking idle time');
+            }
         }
+        Session.set('lastPos',pos);
       })
 
-  },15000)
+  },5000)
 
   function drawBoxes(boxes) {
 
