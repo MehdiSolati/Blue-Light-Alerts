@@ -38,9 +38,15 @@ cursor: pointer;
 background-color:#046380;
 color:#E6E2AF;
 font: 1.3em 'Lobster Two', Helvetica, sans-serif;
-text-shadow: 1px 0px 1px #E6E2AF;
+/*text-shadow: 1px 0px 1px #E6E2AF;*/
 border: 2px dashed #A7A37E;
 border-radius: 5px;
+}
+
+.fancytoggles{
+
+font: 1.3em 'Lobster Two', Helvetica, sans-serif;
+
 }
 
 .footercontainer{
