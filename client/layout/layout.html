@@ -9,13 +9,13 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <span class=" fancylogo" href="#">Blue Light Texts<img src="img/blicon.png" style="height:50px;"></span>
+      <span class="fancylogo" href="#">Blue Light Texts<img src="img/blicon.png" style="height:50px;"></span>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     {{#if currentUser}}
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav  fancynav" style="text-align:center;">
+      <ul class="nav navbar-nav fancynav" style="text-align:center;">
         <li><a id="myMapNav" href="#">My Map</a></li>
         <li><a id="myPathNav" href="#">My Path</a></li>
         <li><a id="myFriendsNav" href="#">My Friends</a></li>
@@ -27,5 +27,21 @@
 </nav>
 
     {{> yield}}
+    {{>_footer}}
 
+
+</template>
+
+<template name="_footer">
+  <footer>
+   <div class="footercontainer">
+      <p class="text-center fancyfooter">
+        Contact Us!
+        <a class="fa fa-lg fa-facebook-official"></a>
+        <a class="fa fa-lg fa-envelope-o" title="Email us!"></a>
+        <a class="fa fa-lg fa-bug"  title="Report a bug!"></a>
+       
+      </p>
+  </div>
+  </footer>
 </template>

@@ -62,7 +62,7 @@ if(Session.get("distance")==="mile"){
   var miles=distance*0.621371;
   var calorie=miles*85
   var rounded = Math.round( calorie * 10 ) / 10;
-  var fixed = rounded.toFixed(2);
+  var fixed = rounded.toFixed(0);
   var finaldist=fixed+" calorie";
   }
   list.push({
