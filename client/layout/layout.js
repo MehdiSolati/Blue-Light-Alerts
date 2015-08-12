@@ -54,7 +54,7 @@ Template.layout.events({
       });
       myPath.setMap(map);
       routeBoxer = new RouteBoxer();
-      boxes = routeBoxer.box(myPathCoordinates, .02286);
+      boxes = routeBoxer.box(myPathCoordinates, .04572);
       Session.set('boxRange', boxes);
       drawBoxes(boxes);
       trackPath = setInterval(function() {

@@ -70,9 +70,50 @@ if (Meteor.isClient) {
       });
       navigator.vibrate(1000);
       $("#myPathText").hide().text("Poooof, your path is gone! Hold on for refresh.").fadeIn('fast').css('color', '#f0ad4e');
-      window.setTimeout(function() {
-        window.location.reload();
-      }, 3000);
+      window.setTimeout(function() {window.location.reload();}, 3000);
     },
+    'click #test': function(){
+      if (Meteor.user().profile.polyline == undefined) {
+        var polylinesId = Polylines.insert({
+          userId: (Meteor.user()._id)
+          });
+        
+        Meteor.users.update({
+          _id: Meteor.userId()
+        }, {
+          $set: {
+            'profile.polyline': polylinesId
+          }
+        });
+  }
+
+        //hard coded route locations for test
+        var flightPlanCoordinates = [
+          {'lat':42.0531,'lng':-73.53983},
+          {'lat':42.0531,'lng':-74.53983}
+        ];
+
+        //write test route to polylines table
+        for(var x=0;x<flightPlanCoordinates.length;x++)
+        {
+          Polylines.update({
+            _id: Meteor.user().profile.polyline
+          }, {$addToSet: {
+            'position': [41.0531, -73.53983]
+          }
+        });
+
+          Polylines.update(
+            {_id : Meteor.user().profile.polyline}, 
+            {$addToSet: {
+              'position': [
+              flightPlanCoordinates[x].lat, 
+              flightPlanCoordinates[x].lng
+              ]
+            }
+          });
+          console.log('insert'+flightPlanCoordinates[x].lat +":"+flightPlanCoordinates[x].lng);
+        }
+    }
   });
 }
