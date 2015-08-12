@@ -29,8 +29,8 @@ Session.setDefault("distance", "mile");
 
         lat2 = Markers.findOne({userId : friendID}).positionLat;
         lon2 = Markers.findOne({userId : friendID}).positionLon;
-        lat1=Meteor.user().profile.position.G;
-        lon1=Meteor.user().profile.position.K;
+        lat1= Markers.findOne({userId : Meteor.userId()}).positionLat;
+        lon1= Markers.findOne({userId : Meteor.userId()}).positionLon;
 
 var R = 6371; // km 
 //has a problem with the .toRad() method below.

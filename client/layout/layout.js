@@ -59,15 +59,15 @@ Template.layout.events({
     path: myPathCoordinates,
     geodesic: true,
     strokeColor: '#FF0000',
-    strokeOpacity: 1.0,
-    strokeWeight: 2
+    strokeOpacity: 0.0,
+    strokeWeight: 0
   });
 
   myPath.setMap(map);
 
 
   routeBoxer = new RouteBoxer();
-  boxes = routeBoxer.box(myPathCoordinates, .1);
+  boxes = routeBoxer.box(myPathCoordinates, .0914);
   Session.set('boxRange', boxes);
   drawBoxes(boxes);
 
@@ -111,26 +111,26 @@ Template.layout.events({
                 }
               }
             else{
-              alert("End of path at box "+Session.get('routeStep'));
+              $("#myPathText").text("End of path at box "+Session.get('routeStep'));
             }
             if(offtrack==false)
-              alert(outcome);
+              $("#myPathText").text(outcome);
             Session.set('lastPos',pos);
           }
           //fire if less than min distance from previous pos
         else{
-          alert('you havent moved, counter: '+Session.get('idle'));
+          $("#myPathText").hide().text("You haven't moved in "+((Session.get('idle'))*0.5)+" minute(s).").fadeIn('fast').css('color', '#f0ad4e');
 
           var counter = Session.get('idle')+1;
             Session.set('idle',counter);
             //fire idle responses for 1 minute if user has stopped, 2 minutes if user has
             if(Session.get('idle')>=4&&Session.get('idleAlert')==false){
               if(Session.get('start')){
-                alert('Person has idled for 1 minute, insert panic code here, continue tracking idle time');
+                $("#myPathText").text('Person has idled for 1 minute, insert panic code here, continue tracking idle time');
                 Session.set('idleAlert',true);
               }
               else if(Session.get('idle')>=8){
-                alert('Person has idled for 2 minutes at start, insert panic code here, continue tracking idle time');
+                $("#myPathText").text('Person has idled for 2 minutes at start, insert panic code here, continue tracking idle time');
                 Session.set('idleAlert',true);
               }
             }
@@ -138,7 +138,7 @@ Template.layout.events({
         
       })
 
-  },5000)
+  },30000)
 
   function drawBoxes(boxes) {
 
@@ -147,10 +147,11 @@ Template.layout.events({
 
         boxpolys[i] = new google.maps.Rectangle({
           bounds: boxes[i],
-          fillOpacity: 0,
-          strokeOpacity: 1.0,
+          fillOpacity: 0.7,
+          fillColor: '#68a1b2',
+          strokeOpacity: 0.0,
           strokeColor: '#000000',
-          strokeWeight: 3,
+          strokeWeight: 0,
           map: map
         });
       }
