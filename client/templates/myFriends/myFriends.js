@@ -1,5 +1,23 @@
 if (Meteor.isClient) {
-	Template.friendsList.helpers({
+
+  
+Session.setDefault("distance", "mile");
+
+  Template.friendsList.events({
+    'click .yard': function() {
+     Session.set('distance', 'yard');
+    },
+     'click .mile': function() {
+     Session.set('distance', 'mile');
+    },
+    'click .calorie': function() {
+     Session.set('distance', 'calorie');
+    }
+  });
+
+ 
+ 
+ Template.friendsList.helpers({
     'friendsList': function(template) {
       var friendsCounter = 0;
       var list = [];
@@ -8,7 +26,6 @@ if (Meteor.isClient) {
         }).friends.length)) {
         friendID = friendList.findOne({
           userId: Meteor.userId()}).friends[friendsCounter];
-
 
         lat2 = Markers.findOne({userId : friendID}).positionLat;
         lon2 = Markers.findOne({userId : friendID}).positionLon;
@@ -22,30 +39,43 @@ var dLat = x1.toRad();
 var x2 = lon2-lon1;
 var dLon = x2.toRad();  
 var a = Math.sin(dLat/2) * Math.sin(dLat/2) + 
-                Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) * 
-                Math.sin(dLon/2) * Math.sin(dLon/2);  
+Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) * 
+Math.sin(dLon/2) * Math.sin(dLon/2);  
 var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
 var distance = R * c; 
-var miles=distance*0.621371;
-var calorie=miles*85;
 
 
-
-
-var rounded = Math.round( miles * 10 ) / 10;
-var fixed = rounded.toFixed(2);
-
-
-        list.push({
+if(Session.get("distance")==="mile"){
+  var miles=distance*0.621371;
+  var rounded = Math.round( miles * 10 ) / 10;
+  var fixed = rounded.toFixed(2);
+  var finaldist=fixed+" miles";
+ }
+ else if(Session.get("distance")==="yard"){
+  var miles=distance*0.621371;
+  var yard=miles*1760;
+  var rounded = Math.round( yard * 10 ) / 10;
+  var fixed = rounded.toFixed(0);
+  var finaldist=fixed+" yards";
+  }
+ else if(Session.get("distance")==="calorie"){
+  var miles=distance*0.621371;
+  var calorie=miles*85
+  var rounded = Math.round( calorie * 10 ) / 10;
+  var fixed = rounded.toFixed(2);
+  var finaldist=fixed+" calorie";
+  }
+  list.push({
           name: Meteor.users.findOne({
             _id: friendID
           }).profile.name
-        , distance :fixed });
+        , distance:finaldist});
         friendsCounter++;
       }
       return list;
     }
   });
+
 
 
 

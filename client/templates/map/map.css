@@ -1,4 +1,7 @@
 #map-canvas {
     width: 100%;
     height: 500px;
+    border: 5px dashed #A7A37E;
+    border-radius: 5px;
 }
+

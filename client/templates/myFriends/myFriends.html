@@ -31,9 +31,18 @@
 <template name="friendsList">
 	<div class="container fancyfriend col-md-12">
 	<h3>Friends List - Distances</h3>
+	<btn class="btn btn-info mile" title="Distance in Miles" >Miles</btn>
+	<btn class="btn btn-danger yard" title="Distance in Yards" >Yard</btn>
+	<btn class="btn btn-warning calorie fa fa-heart" title="This is how much calorie you burn if you walk to you friend, lets get moving!!"></btn>
+	<btn class="btn btn-success" title="?">?</btn>
 	<ol>
 		{{#each friendsList}}
-		<li>{{this.name}} - {{this.distance}} miles </li>
+		<li>{{this.name}}&nbsp;-&nbsp;{{this.distance}}</li>
+		<li>{{this.name}}&nbsp;-&nbsp;{{this.distance}}</li>
+		<li>{{this.name}}&nbsp;-&nbsp;{{this.distance}}</li>
+		<li>{{this.name}}&nbsp;-&nbsp;{{this.distance}}</li>
+		<li>{{this.name}}&nbsp;-&nbsp;{{this.distance}} </li>
+
 		
 		{{/each}}
 	</ol>
