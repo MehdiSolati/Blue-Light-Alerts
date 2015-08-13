@@ -76,11 +76,8 @@ setInterval(function(){
     // if testmode is active overwrite locale data with dummy data
 
      if(Session.get('testMode')==true){
-      lat=Session.get('startLat')-.0001;
-      lng=Session.get('startLng')-.0001;
-          
-          Session.set('startLat',lat);
-          Session.set('startLng',lng);
+          Session.set('startLat',parseFloat(Session.get('startLat'))+parseFloat(Session.get('latOffset')));
+          Session.set('startLng',parseFloat(Session.get('startLng'))+parseFloat(Session.get('lngOffset')));
       pos = new google.maps.LatLng(Session.get('startLat'), Session.get('startLng'))
      }
 
@@ -153,7 +150,7 @@ google.maps.event.addListener(marker, 'click', function() {
     map.setCenter(marker.getPosition());
   });
 
-  },1000)
+  },Session.get('gpsRefresh'))
 
 
 

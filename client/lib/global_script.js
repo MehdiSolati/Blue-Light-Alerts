@@ -67,3 +67,23 @@ tracking = function() {
           }
         })
       }
+
+recording = function() {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var pos = new google.maps.LatLng(position.coords.latitude,
+            position.coords.longitude);
+          //if testmode is active overwrite locale data with dummy data
+          if (Session.get('testMode') == true) {
+            pos = new google.maps.LatLng(Session.get('startLat'), Session.get('startLng'))
+          }
+          console.log(pos.lat() + " : lng " + pos.lng());
+          Polylines.update({
+            _id: Meteor.user().profile.polyline
+          }, {
+            $addToSet: {
+              'position': [pos.lat(), pos.lng()]
+            }
+          });
+          console.log(pos);
+        })
+      }

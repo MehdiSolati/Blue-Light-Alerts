@@ -1,3 +1,6 @@
+//refresh rates
+Session.set('gpsRefresh',1000);
+
 Session.set('routeStep', 0);
 //current point difference set to less than 1 meter for idling. 
 Session.set('speed', 1);
@@ -10,8 +13,14 @@ Session.set('idleAlert', false);
 //hardcode start location here
 Session.set('startLat', 41.0528);
 Session.set('startLng', -73.5398);
+Session.set('latOffset',0);
+Session.set('lngOffset',0);
+Session.set('step',0.0000089552);
+Session.set('meterStep',1);
 //toggle tracking function
 Session.set('trackSwitch',false);
+
+
 Template.layout.events({
   'click #logout': function(event) {
     Meteor.logout(function(err) {

@@ -28,6 +28,23 @@
 
 	<button id='test'>test</button>
 	<button id='activateTest'>activate</button>
+	<p>
+		test location
+		start lat<input type='number' id='testLat' value='{{startLat}}'/>
+		start lng<input type='number' id='testLng' value='{{startLng}}'/>
+	</p>
+	<p>
+	motion controls
+	<button id='incLat'>+</button>
+		lat offset<input type='number' id='latOffset' value='{{latOffset}}'/>
+	<button id='decLat'>-</button>
+	<button id='incLng'>+</button>
+		lng offset<input type='number' id='lngOffset' value='{{lngOffset}}'/>
+	<button id='decLng'>-</button>
+		step size<input type='number' id='step' value='{{step}}'/>In Meters
+	<button id='zero'>zero</button>
+	<button id='manualLoc'>GPS override</button>
+	</p>
 	<div>
 		<h2 id="myPathText"></h2>
 	</div>

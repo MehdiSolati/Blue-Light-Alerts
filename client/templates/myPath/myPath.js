@@ -31,25 +31,7 @@ if (Meteor.isClient) {
           });
         }
       })
-      recordPath = setInterval(function() {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          var pos = new google.maps.LatLng(position.coords.latitude,
-            position.coords.longitude);
-          //if testmode is active overwrite locale data with dummy data
-          if (Session.get('testMode') == true) {
-            pos = new google.maps.LatLng(Session.get('startLat'), Session.get('startLng'))
-          }
-          console.log(pos.lat() + " : lng " + pos.lng());
-          Polylines.update({
-            _id: Meteor.user().profile.polyline
-          }, {
-            $addToSet: {
-              'position': [pos.lat(), pos.lng()]
-            }
-          });
-          console.log(pos);
-        })
-      }, 15000)
+      recordPath = setInterval(recording, 15000)
     });
     $('#stop').click(function() {
       clearInterval(recordPath);
@@ -60,6 +42,8 @@ if (Meteor.isClient) {
       }, 3000);
     });
   };
+
+
   Template.myPath.events({
     'click #reset': function() {
       Polylines.update({
@@ -73,10 +57,12 @@ if (Meteor.isClient) {
       $("#myPathText").hide().text("Poooof, your path is gone! Hold on for refresh.").fadeIn('fast').css('color', '#f0ad4e');
       window.setTimeout(function() {window.location.reload();}, 3000);
     },
+
     'click #activateTest':function(){
       Session.set('testMode',true);
       console.log('trigger testmode switch'+Session.get('testMode'));
     },
+
     'click #toggleTrack':function(){
       
       if(Session.get('trackSwitch')==true){
@@ -89,6 +75,7 @@ if (Meteor.isClient) {
         $('#toggleTrack').text('Stop Track');
       }
     },
+
     'click #test': function(){
       if (Meteor.user().profile.polyline == undefined) {
         var polylinesId = Polylines.insert({
@@ -97,12 +84,12 @@ if (Meteor.isClient) {
         
         Meteor.users.update({
           _id: Meteor.userId()
-        }, {
-          $set: {
-            'profile.polyline': polylinesId
-          }
-        });
-  }
+              }, {
+                $set: {
+                  'profile.polyline': polylinesId
+                }
+              });
+      }
 
         //hard coded route locations for test
         var flightPlanCoordinates = [
@@ -126,12 +113,58 @@ if (Meteor.isClient) {
             {$addToSet: {
               'position': [
               flightPlanCoordinates[x].lat, 
-              flightPlanCoordinates[x].lng
-              ]
-            }
-          });
+              flightPlanCoordinates[x].lng]
+              }
+            });
           console.log('insert'+flightPlanCoordinates[x].lat +":"+flightPlanCoordinates[x].lng);
         }
-    }
+    },
+    'click #incLat':function(){
+      Session.set('latOffset',Session.get('latOffset')+Session.get('step'));
+      $('#latOffset').val(latOffset);
+    },
+    'click #decLat':function(){
+      Session.set('latOffset',Session.get('latOffset')-Session.get('step'));
+      $('#latOffset').val(Session.get('latOffset'));
+    },
+    'click #incLng':function(){
+      var lngOffset = Session.get('lngOffset');
+      Session.set('lngOffset',Session.get('lngOffset')+Session.get('step'));
+    },
+    'click #decLng':function(){
+      var lngOffset = Session.get('lngOffset');
+      Session.set('lngOffset',lngOffset-Session.get('step'));
+    },
+    'click #manualLoc':function(event,template){
+      event.preventDefault();
+      Session.set('step',((template.find('#step').value/111666.615)*(Session.get('gpsRefresh')/1000)).toFixed(10));
+      Session.set('meterStep',template.find('#step').value);
+      Session.set('startLat',template.find('#testLat').value);
+      Session.set('startLng',template.find('#testLng').value);
+    },
+    'click #zero':function(){
+      Session.set('latOffset',0);
+      Session.set('lngOffset',0)
+      Session.set('step',0.0000089552);
+      Session.set('meterStep',1);
+    },
   });
 }
+
+Template.myPath.helpers({
+    'step':function(){
+      return Session.get('meterStep');
+    },
+    'startLat':function(){
+      return Session.get('startLat');
+    },
+    'startLng':function(){
+      return Session.get('startLng');
+    },
+    'latOffset':function(){
+      return Session.get('latOffset');
+    },
+    'lngOffset':function(){
+      return Session.get('lngOffset');
+    }
+})
