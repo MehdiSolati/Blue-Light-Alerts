@@ -47,6 +47,7 @@ if (Meteor.isClient) {
               'position': [pos.lat(), pos.lng()]
             }
           });
+          console.log(pos);
         })
       }, 15000)
     });
@@ -72,6 +73,22 @@ if (Meteor.isClient) {
       $("#myPathText").hide().text("Poooof, your path is gone! Hold on for refresh.").fadeIn('fast').css('color', '#f0ad4e');
       window.setTimeout(function() {window.location.reload();}, 3000);
     },
+    'click #activateTest':function(){
+      Session.set('testMode',true);
+      console.log('trigger testmode switch'+Session.get('testMode'));
+    },
+    'click #toggleTrack':function(){
+      
+      if(Session.get('trackSwitch')==true){
+        Session.set('trackSwitch',false);
+        $('#toggleTrack').text('Start Track');
+        clearInterval(trackPath);
+      }else{
+        Session.set('trackSwitch',true);
+        trackPath=setInterval(tracking,Session.get('trackRefresh'))
+        $('#toggleTrack').text('Stop Track');
+      }
+    },
     'click #test': function(){
       if (Meteor.user().profile.polyline == undefined) {
         var polylinesId = Polylines.insert({
@@ -89,8 +106,9 @@ if (Meteor.isClient) {
 
         //hard coded route locations for test
         var flightPlanCoordinates = [
-          {'lat':42.0531,'lng':-73.53983},
-          {'lat':42.0531,'lng':-74.53983}
+          {'lat':41.053096, 'lng':-73.539518},
+          {'lat':41.051974, 'lng':-73.539572},
+          {'lat':41.052038, 'lng':-73.542020}
         ];
 
         //write test route to polylines table
