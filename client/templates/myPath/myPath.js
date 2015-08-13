@@ -1,15 +1,15 @@
 if (Meteor.isClient) {
-  Template.index.rendered = function() {
-    if (Polylines.findOne({
-        _id: Meteor.user().profile.polyline
-      }).position === undefined) {
-      document.getElementById("recordPath").style.display = "block";
-      document.getElementById("resetPath").style.display = "none";
-    } else {
-      document.getElementById("recordPath").style.display = "none";
-      document.getElementById("resetPath").style.display = "block";
-    }
-  };
+  // Template.index.rendered = function() {
+  //   if (Polylines.findOne({
+  //       _id: Meteor.user().profile.polyline
+  //     }).position === undefined) {
+  //     document.getElementById("recordPath").style.display = "block";
+  //     document.getElementById("resetPath").style.display = "none";
+  //   } else {
+  //     document.getElementById("recordPath").style.display = "none";
+  //     document.getElementById("resetPath").style.display = "block";
+  //   }
+  // };
   Template.myPath.rendered = function() {
     var recordPath;
     $('#go').click(function() {
