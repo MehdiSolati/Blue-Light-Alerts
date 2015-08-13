@@ -76,8 +76,11 @@ setInterval(function(){
     // if testmode is active overwrite locale data with dummy data
 
      if(Session.get('testMode')==true){
-      lat=Session.get('startLat')-.0001;
-      lng=Session.get('startLng')-.0001;
+      lat=Session.get('startLat')-.00003;
+      lng=Session.get('startLng')+.00005;
+
+      // lat=Session.get('startLat');
+      // lng=Session.get('startLng');
           
           Session.set('startLat',lat);
           Session.set('startLng',lng);

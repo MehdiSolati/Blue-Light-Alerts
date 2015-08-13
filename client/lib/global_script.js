@@ -18,7 +18,7 @@ tracking = function() {
             Session.set('idle', 0);
             Session.set('idleAlert', false);
             var offtrack = false;
-            var outcome = "I'm Off Track";
+            var outcome = "You're off track! (We're getting ready to send an alert)";
             var boxes = Session.get('boxRange');
             //traverse next two bounding boxes to check for location
             if (Session.get('routeStep') < Session.get('boxRange').length){
@@ -32,7 +32,7 @@ tracking = function() {
                   Session.set('routeStep', x);
                   //insert code here if on track
                   offtrack = true;
-                  outcome = "I'm ok, in step " + Session.get('routeStep') + " of my trip.";
+                  outcome = "You're on track!";
                 }
               }
             }else {
@@ -40,9 +40,26 @@ tracking = function() {
             }
             if (offtrack == false){
               //insert code here if off track
+              if (Session.get('offTrack') == 0) {
+              $("#myPathText").text(outcome).fadeIn('fast').css('color', '#f0ad4e');
+              Session.set('offTrack', (Session.get('offTrack')+1));
+            } else if (Session.get('offTrack') == 1) {
+                var alertMessage = ("Your friend "+Meteor.user().profile.name+" has deviated from their safe path! You should check on them.");
+                  Meteor.call('sendEmail', '2038235131@tmomail.net', alertMessage);
+                  $("#myPathText").text("You've deviated from your path, we're texting your friends!").fadeIn('fast').css('color', '#d9534f');
+              Session.set('offTrack', (Session.get('offTrack')+1));
+              } else{
+$("#myPathText").text("You've deviated from your path, we're texting your friends!").fadeIn('fast').css('color', '#d9534f');
+              Session.set('offTrack', (Session.get('offTrack')+1));
+              }
+              
+
+            } else {
+              $("#myPathText").text(outcome).fadeIn('fast').css('color', '#62c462');
+              Session.set('offTrack', 0);
             }
-              $("#myPathText").text(outcome);
             Session.set('lastPos', pos);
+
           }
           //fire if less than min distance from previous pos
           else {
@@ -53,15 +70,13 @@ tracking = function() {
             var counter = Session.get('idle') + 1;
             Session.set('idle', counter);
             //fire idle responses for 1 minute if user has stopped, 2 minutes if user has
-            if (Session.get('idle') >= 4 && Session.get('idleAlert') == false) {
-              if (Session.get('start')==true) {
-                //insert idle alert for 4 clicks
-                $("#myPathText").text('Person has idled for 1 minute, insert panic code here, continue tracking idle time');
+            if (Session.get('idle') > 4) {
+
+                $("#myPathText").text("You haven't moved in two minutes, we're texting your friends!").css('color', '#d9534f');
                 Session.set('idleAlert', true);
-              } else if (Session.get('idle') >= 8) {
-                //insert idle alert for 8 clicks, user hasn't started yet
-                $("#myPathText").text('Person has idled for 2 minutes at start, insert panic code here, continue tracking idle time');
-                Session.set('idleAlert', true);
+              if (Session.get('idle') == 5) {
+                var alertMessage = ("Your friend "+Meteor.user().profile.name+" has stalled on their safe path! You should check on them.");
+                  Meteor.call('sendEmail', '2038235131@tmomail.net', alertMessage);
               }
             }
           }

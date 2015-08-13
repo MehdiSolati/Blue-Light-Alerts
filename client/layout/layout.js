@@ -1,15 +1,17 @@
 Session.set('routeStep', 0);
 //current point difference set to less than 1 meter for idling. 
-Session.set('speed', 1);
+Session.set('speed', 10);
 Session.set('idle', 0);
+Session.set('offTrack', 0);
 Session.set('start', false);
 //hardcode testMode flag true or false, true will overwrite GPS to step north east by .00001 lat and long, or 1 m step lat and long
 Session.set('testMode', false);
-Session.set('trackRefresh',5000);
+//Session.set('trackRefresh',30000);
+Session.set('trackRefresh',6000);
 Session.set('idleAlert', false);
 //hardcode start location here
-Session.set('startLat', 41.0528);
-Session.set('startLng', -73.5398);
+Session.set('startLat', 41.304987);
+Session.set('startLng', -72.923408);
 //toggle tracking function
 Session.set('trackSwitch',false);
 Template.layout.events({
@@ -42,9 +44,6 @@ Template.layout.events({
       for (var i = 0; i < Polylines.findOne({_id: Meteor.user().profile.polyline}).position.length; i++) {
         lat = Polylines.findOne({_id: Meteor.user().profile.polyline}).position[i][0];
         lon = Polylines.findOne({_id: Meteor.user().profile.polyline}).position[i][1];
-        console.log('test polylines retrieval');
-        console.log(lat);
-        console.log(lon);
         myPathCoordinates.push(new google.maps.LatLng(lat, lon));
       }
       console.log(myPathCoordinates);
@@ -59,9 +58,7 @@ Template.layout.events({
       routeBoxer = new RouteBoxer();
       boxes = routeBoxer.box(myPathCoordinates, .04572);
       Session.set('boxRange', boxes);
-      console.log("prior to drawBoxes");
       drawBoxes(boxes);
-      console.log('after drawBoxes');
       //trackPath = setInterval(tracking, Session.get('trackRefresh'));
 
       function drawBoxes(boxes) {

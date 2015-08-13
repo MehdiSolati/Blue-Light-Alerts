@@ -49,7 +49,9 @@ if (Meteor.isClient) {
           });
           console.log(pos);
         })
-      }, 15000)
+      }, 
+      //15000)
+      3000)
     });
     $('#stop').click(function() {
       clearInterval(recordPath);
@@ -106,10 +108,14 @@ if (Meteor.isClient) {
 
         //hard coded route locations for test
         var flightPlanCoordinates = [
-          {'lat':41.053096, 'lng':-73.539518},
-          {'lat':41.051974, 'lng':-73.539572},
-          {'lat':41.052038, 'lng':-73.542020}
+          {'lat':41.304797, 'lng':-72.922947},
+          {'lat':41.304610, 'lng':-72.922488},
+          {'lat':41.304298, 'lng':-72.921681},
+          {'lat':41.303456, 'lng':-72.922043},
+          {'lat':41.302731, 'lng':-72.922622}
         ];
+
+        
 
         //write test route to polylines table
         for(var x=0;x<flightPlanCoordinates.length;x++)
@@ -117,7 +123,7 @@ if (Meteor.isClient) {
           Polylines.update({
             _id: Meteor.user().profile.polyline
           }, {$addToSet: {
-            'position': [41.0531, -73.53983]
+            'position': [41.304987, -72.923408]
           }
         });
 
