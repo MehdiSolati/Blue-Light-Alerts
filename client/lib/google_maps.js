@@ -183,12 +183,14 @@ google.maps.event.addListener(marker, 'click', function() {
             }).profile.name) + ' is here!')
       });
 
+//Keynotes
 
 google.maps.event.addListener(friend, 'click', function() {
     map.setCenter(friend.getPosition());
     infowindow.setContent(this.title);
             infowindow.open(map, this);
   });
+
 
 google.maps.event.addListener(friend, 'dblclick', function() {
              email = this.sms;

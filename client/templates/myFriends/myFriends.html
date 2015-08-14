@@ -32,29 +32,57 @@
 	<div class="container fancyfriend col-md-12">
 	<h3>Friends List - Distances</h3>
 	<btn class="btn btn-info mile" title="Distance in Miles" >Miles</btn>
-	<btn class="btn btn-danger yard" title="Distance in Yards" >Yard</btn>
+	<btn class="btn btn-success yard" title="Distance in Yards" >Yard</btn>
 	<btn class="btn btn-warning calorie fa fa-heart" title="Walk to your friend, burn the following amount of calories, lets get moving!!"></btn>
-	<btn class="btn btn-success" title="?">?</btn>
+	<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Sos</button>
+	
 	<ol>
 		{{#each friendsList}}
 		<li>{{this.name}}&nbsp;<i class="fa fa-envelope-o" title="Sent a msg!"></i>&nbsp;-&nbsp;{{this.distance}}</li>		
 		{{/each}}
 	</ol>
+
+<div class="container">
+ 	<!-- Trigger the modal with a button -->
+  	
+	<!-- Modal -->
+  	<div class="modal fade" id="myModal" role="dialog">
+    	<div class="modal-dialog">
+    		<div class="modal-content">
+       			<div class="modal-body">
+       					<p></p>
+          			<p style="color:red;">Drag icon into box to sent SOS msg to all your friends.</p>
+
+          		<img id="drag1" src="img/blicon.png" draggable="true" ondragstart="drag(event)" width="50" height="50">
+          		<i class="fa fa-share"></i><i class="fa fa-share"></i><i class="fa fa-share"></i>
+<i class="fa fa-share"></i>
+          			
+          			<div id="dropbox" ondrop="drop(event)" ondragover="allowDrop(event)" style="float:right;"></div>
+          			
+       			</div>
+     		</div>
+    	</div>
+  	</div>
+  
+</div>
+
+
+
 </div>
 </template>
 
 <template name="friendRequests">
 	{{#if currentUser}}
-	<h3>Friends Request</h3>
-	<ol>
-		{{#each friendRequests}}
-		<li class="name">{{this.name}}
-			<i id="{{this.id}}" class="glyphicon glyphicon-ok tiny" style="color:green;"></i>
-			<i id="{{this.id}}" class="glyphicon glyphicon-remove tiny" style="color:red;"></i>
-		</li>
-		{{/each}}
-	</ol>
-	{{/if}}
+		<h3>Friends Request</h3>
+		 <ol>
+			{{#each friendRequests}}
+				<li class="name">{{this.name}}
+					<i id="{{this.id}}" class="glyphicon glyphicon-ok tiny" style="color:green;"></i>
+					<i id="{{this.id}}" class="glyphicon glyphicon-remove tiny" style="color:red;"></i>
+				</li>
+			{{/each}}
+		</ol>
+		{{/if}}
 </template>
 
 <template name="friendsPending">

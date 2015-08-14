@@ -1,5 +1,11 @@
 if (Meteor.isClient) {
 
+
+
+
+
+
+
   
 Session.setDefault("distance", "mile");
 
