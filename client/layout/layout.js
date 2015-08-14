@@ -41,7 +41,7 @@ Template.layout.events({
     document.getElementById('myFriends').style.display = 'block';
   },
   'click #myPathNav': function(event) {
-    console.log("clicked on mypath");
+    
     document.getElementById('myMap').style.display = 'block';
     document.getElementById('myPath').style.display = 'block';
     document.getElementById('myFriends').style.display = 'none';
@@ -51,12 +51,9 @@ Template.layout.events({
       for (var i = 0; i < Polylines.findOne({_id: Meteor.user().profile.polyline}).position.length; i++) {
         lat = Polylines.findOne({_id: Meteor.user().profile.polyline}).position[i][0];
         lon = Polylines.findOne({_id: Meteor.user().profile.polyline}).position[i][1];
-        console.log('test polylines retrieval');
-        console.log(lat);
-        console.log(lon);
         myPathCoordinates.push(new google.maps.LatLng(lat, lon));
       }
-      console.log(myPathCoordinates);
+      
       var myPath = new google.maps.Polyline({
         path: myPathCoordinates,
         geodesic: true,
@@ -68,9 +65,9 @@ Template.layout.events({
       routeBoxer = new RouteBoxer();
       boxes = routeBoxer.box(myPathCoordinates, .04572);
       Session.set('boxRange', boxes);
-      console.log("prior to drawBoxes");
+
       drawBoxes(boxes);
-      console.log('after drawBoxes');
+
       //trackPath = setInterval(tracking, Session.get('trackRefresh'));
 
       function drawBoxes(boxes) {

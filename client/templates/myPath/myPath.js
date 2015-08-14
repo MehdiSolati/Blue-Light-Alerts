@@ -41,6 +41,7 @@ if (Meteor.isClient) {
         window.location.reload();
       }, 3000);
     });
+    $('#testModeControls').hide();
   };
 
 
@@ -59,8 +60,21 @@ if (Meteor.isClient) {
     },
 
     'click #activateTest':function(){
+      if(Session.get('testMode')==false){
       Session.set('testMode',true);
+        navigator.geolocation.getCurrentPosition(function(position) {
+           var pos = new google.maps.LatLng(position.coords.latitude,
+                                       position.coords.longitude);
+          Session.set('startLat',pos.lat());
+          Session.set('startLng',pos.lng());
+        });
       console.log('trigger testmode switch'+Session.get('testMode'));
+      $('#testModeControls').show();
+      $('#activateTest').text('deactivate test mode');
+    }else{
+      Session.set('testMode',false);
+      $('#testModeControls').hide();
+    }
     },
 
     'click #toggleTrack':function(){
@@ -76,7 +90,7 @@ if (Meteor.isClient) {
       }
     },
 
-    'click #test': function(){
+    /*'click #test': function(){
       if (Meteor.user().profile.polyline == undefined) {
         var polylinesId = Polylines.insert({
           userId: (Meteor.user()._id)
@@ -118,7 +132,7 @@ if (Meteor.isClient) {
             });
           console.log('insert'+flightPlanCoordinates[x].lat +":"+flightPlanCoordinates[x].lng);
         }
-    },
+    },*/
     'click #incLat':function(){
       Session.set('latOffset',Session.get('latOffset')+Session.get('step'));
       $('#latOffset').val(latOffset);

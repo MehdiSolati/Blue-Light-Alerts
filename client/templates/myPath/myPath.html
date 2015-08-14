@@ -1,52 +1,62 @@
 <template name="myPath">
-
-<div id="recordPath" class="fancytoggles">
-<btn id="go" class="btn btn-success" title="Record Path">
-<i class="glyphicon glyphicon-record tiny" style="color:white;"></i>
-
-
-	Record</btn>
-
+<div class='container'>
+	<div class='row'>
+		<div class='col-xs-3'>
+		<div id="recordPath" class="fancytoggles">
+		<btn id="go" class="btn btn-success" title="Record Path">
+		<i class="glyphicon glyphicon-record tiny" style="color:white;"></i>
 
 
-	<btn id="stop" class="btn btn-danger" title="Stop Recording" >
-<i class="glyphicon glyphicon-stop tiny" style="color:white;"></i>
+			Record</btn>
 
 
-	Stop</btn> </div>
-	<div id="resetPath">
+
+			<btn id="stop" class="btn btn-danger" title="Stop Recording" >
+		<i class="glyphicon glyphicon-stop tiny" style="color:white;"></i>
 
 
-	<btn  id="reset" class="btn btn-warning" title="Reset Path">
-<i class="glyphicon glyphicon-repeat tiny" style="color:white;"></i>
+			Stop</btn> </div>
+			<div id="resetPath">
 
 
-	Reset Path</btn>
+			<btn  id="reset" class="btn btn-warning" title="Reset Path">
+		<i class="glyphicon glyphicon-repeat tiny" style="color:white;"></i>
 
-		<btn  id="toggleTrack" class="btn btn-success" title="toggle track">
-		Start Track</btn> </div>
 
-	<button id='test'>test</button>
-	<button id='activateTest'>activate</button>
-	<p>
-		test location
-		start lat<input type='number' id='testLat' value='{{startLat}}'/>
-		start lng<input type='number' id='testLng' value='{{startLng}}'/>
-	</p>
-	<p>
-	motion controls
-	<button id='incLat'>+</button>
-		lat offset<input type='number' id='latOffset' value='{{latOffset}}'/>
-	<button id='decLat'>-</button>
-	<button id='incLng'>+</button>
-		lng offset<input type='number' id='lngOffset' value='{{lngOffset}}'/>
-	<button id='decLng'>-</button>
-		step size<input type='number' id='step' value='{{step}}'/>In Meters
-	<button id='zero'>zero</button>
-	<button id='manualLoc'>GPS override</button>
-	</p>
-	<div>
-		<h2 id="myPathText"></h2>
+			Reset Path</btn>
+
+				<btn  id="toggleTrack" class="btn btn-success" title="toggle track">
+				Start Track</btn> </div>
+
+			<!--<button id='test'>test</button>-->
+			<button id='activateTest'>activate test mode</button>
+			</div>
+		<div id='testModeControls' class='col-xs-6'>
+			<div class='row'>
+				<div class='col-md-3 col-xs-12'>start lat</div>
+				<div class='col-md-7 col-md-offset-2 col-xs-12'><input type='number' id='testLat' value='{{startLat}}'/></div>
+				<div class='col-md-3 col-xs-12'>start lng</div>
+				<div class='col-md-7 col-md-offset-2 col-xs-12'><input type='number' id='testLng' value='{{startLng}}'/></div>
+			</div>
+
+			
+
+			<div class='row'>
+			<div class='col-md-3 col-xs-12'>lat offset</div>
+				<div class='col-xs-2'><button id='incLat'>+</button></div>
+				<div class='col-md-5 col-xs-8'><input type='number' id='latOffset' value='{{latOffset}}' title='lat offset'/></div>
+				<div class='col-xs-2'><button id='decLat'>-</button></div>
+			<div class='col-md-3 col-xs-12'>lng offset</div>
+				<div class='col-xs-2'><button id='incLng'>+</button></div>
+				<div class='col-md-5 col-xs-8'><input type='number' id='lngOffset' value='{{lngOffset}}' title='lng offset'/></div>
+				<div class='col-xs-2'><button id='decLng'>-</button></div>
+			<div class='col-md-3 col-xs-12'>speed</div>
+				<div class='col-xs-2'><button id='zero'>reset</button></div>
+				<div class='col-xs-4'><input type='number' id='step' value='{{step}}' title='distance per tic'/></div>
+				<div class='col-xs-3'><button id='manualLoc'>override</button></div>
+			</div>
+				<h2 id="myPathText"></h2>
+		</div>
 	</div>
-
+</div>
 </template>
