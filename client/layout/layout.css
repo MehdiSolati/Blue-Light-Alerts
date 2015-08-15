@@ -1,0 +1,106 @@
+/*
+c1 :  #E6E2AF; lightest
+c2 :  #A7A37E;  
+c3 :  #EFECCA;  to
+c4 :  #046380;
+c5 :  #002F2F; darkest
+
+#5bc0de;-info
+#d9534f;-danger
+#f0ad4e;-warning
+*/
+
+
+a{
+cursor: pointer;
+}
+
+.fancynav {
+  font: 1.3em 'Oleo Script', Helvetica, sans-serif;
+  color:#046380 !important;
+  text-shadow: 4px 4px 4px rgba(0,0,0,0.1);
+  text-decoration: underline;
+}
+
+.fancylogo {
+  font: 2.5em 'Oleo Script', Helvetica, sans-serif;
+  color:#046380;
+  text-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+  cursor: pointer;
+ }
+
+.header{
+	background-color:#E6E2AF;
+	border: 2px dashed #A7A37E ;
+}
+
+.fancyfriend{
+background-color:#046380;
+color:#E6E2AF;
+font: 1.3em 'Lobster Two', Helvetica, sans-serif;
+/*text-shadow: 1px 0px 1px #E6E2AF;*/
+border: 2px dashed #A7A37E;
+border-radius: 5px;
+}
+
+.fancytoggles{
+
+font: 1.3em 'Lobster Two', Helvetica, sans-serif;
+
+}
+
+.footercontainer{
+	position:relative; 
+}
+
+.fancyfooter{
+position:absolute;
+margin: 0%;
+padding: 0%;
+background-color:#E6E2AF;
+color:#046380;
+font: 1.5em 'Oleo Script', Helvetica, sans-serif;
+width:100%;
+text-shadow: 1px 0px 1px #E6E2AF;
+border: 2px dashed #A7A37E;
+border-radius: 5px;
+}
+
+ol {
+ list-style-type: none;
+	padding-left: 0%;
+}
+
+ol>li{
+padding: .5em;
+
+}
+
+ul>li:hover{
+text-decoration: underline;
+}
+
+.fa:hover{
+text-decoration: underline;
+cursor: pointer;
+}
+
+h3{
+    text-decoration: underline;
+}
+
+h2{
+    font: 2.5em 'Oleo Script', Helvetica, sans-serif;
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
