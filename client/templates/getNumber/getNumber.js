@@ -5,8 +5,6 @@ if (Meteor.isClient) {
       var phoneNumberVar = template.find('#signUpCell').value;
       var phoneProviderVar = template.find('#signUpProvider').value;
       var smsEmailVar = (phoneNumberVar + phoneProviderVar);
-
-
       Meteor.users.update({
         _id: Meteor.userId()
       }, {
@@ -15,8 +13,9 @@ if (Meteor.isClient) {
           'profile.smsAddress': smsEmailVar
         }
       });
-
-      window.setTimeout(function() {window.location.reload();}, 1000);
+      window.setTimeout(function() {
+        window.location.reload();
+      }, 1000);
     }
   });
 }

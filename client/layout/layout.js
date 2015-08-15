@@ -6,14 +6,14 @@ Session.set('offTrack', 0);
 Session.set('start', false);
 //hardcode testMode flag true or false, true will overwrite GPS to step north east by .00001 lat and long, or 1 m step lat and long
 Session.set('testMode', false);
-//Session.set('trackRefresh',30000);
-Session.set('trackRefresh',6000);
+Session.set('trackRefresh',30000);
+// Session.set('trackRefresh', 6000);
 Session.set('idleAlert', false);
 //hardcode start location here
 Session.set('startLat', 41.304987);
 Session.set('startLng', -72.923408);
 //toggle tracking function
-Session.set('trackSwitch',false);
+Session.set('trackSwitch', false);
 Template.layout.events({
   'click #logout': function(event) {
     Meteor.logout(function(err) {
@@ -41,9 +41,15 @@ Template.layout.events({
     try {
       var myPathCoordinates = [];
       console.log('clicked myPathNav');
-      for (var i = 0; i < Polylines.findOne({_id: Meteor.user().profile.polyline}).position.length; i++) {
-        lat = Polylines.findOne({_id: Meteor.user().profile.polyline}).position[i][0];
-        lon = Polylines.findOne({_id: Meteor.user().profile.polyline}).position[i][1];
+      for (var i = 0; i < Polylines.findOne({
+          _id: Meteor.user().profile.polyline
+        }).position.length; i++) {
+        lat = Polylines.findOne({
+          _id: Meteor.user().profile.polyline
+        }).position[i][0];
+        lon = Polylines.findOne({
+          _id: Meteor.user().profile.polyline
+        }).position[i][1];
         myPathCoordinates.push(new google.maps.LatLng(lat, lon));
       }
       console.log(myPathCoordinates);
@@ -59,8 +65,6 @@ Template.layout.events({
       boxes = routeBoxer.box(myPathCoordinates, .04572);
       Session.set('boxRange', boxes);
       drawBoxes(boxes);
-      //trackPath = setInterval(tracking, Session.get('trackRefresh'));
-
       function drawBoxes(boxes) {
         boxpolys = new Array(boxes.length);
         for (var i = 0; i < boxes.length; i++) {

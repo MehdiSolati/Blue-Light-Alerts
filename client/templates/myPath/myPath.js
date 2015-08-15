@@ -1,15 +1,4 @@
 if (Meteor.isClient) {
-  // Template.index.rendered = function() {
-  //   if (Polylines.findOne({
-  //       _id: Meteor.user().profile.polyline
-  //     }).position === undefined) {
-  //     document.getElementById("recordPath").style.display = "block";
-  //     document.getElementById("resetPath").style.display = "none";
-  //   } else {
-  //     document.getElementById("recordPath").style.display = "none";
-  //     document.getElementById("resetPath").style.display = "block";
-  //   }
-  // };
   Template.myPath.rendered = function() {
     var recordPath;
     $('#go').click(function() {
@@ -39,7 +28,6 @@ if (Meteor.isClient) {
           if (Session.get('testMode') == true) {
             pos = new google.maps.LatLng(Session.get('startLat'), Session.get('startLng'))
           }
-          console.log(pos.lat() + " : lng " + pos.lng());
           Polylines.update({
             _id: Meteor.user().profile.polyline
           }, {
@@ -47,11 +35,9 @@ if (Meteor.isClient) {
               'position': [pos.lat(), pos.lng()]
             }
           });
-          console.log(pos);
         })
       }, 
-      //15000)
-      3000)
+      15000)
     });
     $('#stop').click(function() {
       clearInterval(recordPath);
@@ -77,7 +63,6 @@ if (Meteor.isClient) {
     },
     'click #activateTest':function(){
       Session.set('testMode',true);
-      console.log('trigger testmode switch'+Session.get('testMode'));
     },
     'click #toggleTrack':function(){
       
@@ -136,7 +121,6 @@ if (Meteor.isClient) {
               ]
             }
           });
-          console.log('insert'+flightPlanCoordinates[x].lat +":"+flightPlanCoordinates[x].lng);
         }
     }
   });

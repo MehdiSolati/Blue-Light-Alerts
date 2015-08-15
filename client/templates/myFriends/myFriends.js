@@ -235,7 +235,6 @@ if(Session.get("distance")==="mile"){
                   _id: friendID
                 }).profile.name) + " has already asked to be friends with you... Why not accept his/her request?");
                 inRequestList = true;
-                // Meteor.users.findOne({ emails: { $elemMatch: { address: friendsEmail } } }).profile.name
               }
               friendsCounter++;
             }
