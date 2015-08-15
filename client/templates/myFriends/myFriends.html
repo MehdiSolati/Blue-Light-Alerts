@@ -34,10 +34,9 @@
 	<btn class="btn btn-info mile" title="Distance in Miles" >Miles</btn>
 	<btn class="btn btn-danger yard" title="Distance in Yards" >Yard</btn>
 	<btn class="btn btn-warning calorie fa fa-heart" title="Walk to your friend, burn the following amount of calories, lets get moving!!"></btn>
-	<btn class="btn btn-success" title="?">?</btn>
 	<ol>
 		{{#each friendsList}}
-		<li>{{this.name}}&nbsp;<i class="fa fa-envelope-o" title="Sent a msg!"></i>&nbsp;-&nbsp;{{this.distance}}</li>		
+		<li>{{this.name}}&nbsp;-&nbsp;{{this.distance}}</li>		
 		{{/each}}
 	</ol>
 </div>
