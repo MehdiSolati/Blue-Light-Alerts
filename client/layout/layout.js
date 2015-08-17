@@ -3,7 +3,7 @@ Session.set('gpsRefresh',1000);
 
 Session.set('routeStep', 0);
 //current point difference set to less than 1 meter for idling. 
-Session.set('speed', 1);
+Session.set('speed', 10);
 Session.set('idle', 0);
 Session.set('offTrack', 0);
 Session.set('start', false);

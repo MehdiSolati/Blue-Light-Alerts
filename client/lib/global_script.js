@@ -63,7 +63,8 @@ tracking = function() {
       Session.set('lastPos', pos);
     }
     //fire if less than min distance from previous pos
-    else if (Session.get('idle') != 0 && offtrack == true){
+    else{
+      if (Session.get('offTrack') == 0) {
       if (Session.get('idle') != 0) {
         $("#myPathText").hide().text("You haven't moved in " + ((Session.get('idle')) * 0.5) + " minute(s).").fadeIn('fast').css('color', '#f0ad4e');
       }
@@ -82,6 +83,7 @@ tracking = function() {
           Session.set('idleAlert', true);
         }
       }
+    }
     }
 }
 recording = function() {
