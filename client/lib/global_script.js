@@ -1,10 +1,10 @@
 tracking = function() {
-  navigator.geolocation.getCurrentPosition(function(position) {
+
     //if test mode is active, adjust dummy locale data by .01
     if (Session.get('testMode') == true) {
       pos = new google.maps.LatLng(Session.get('startLat'), Session.get('startLng'));
     } else
-      var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      var pos = new google.maps.LatLng(Markers.findOne({userId : Meteor.userId()}).positionLat, Markers.findOne({userId : Meteor.userId()}).positionLon);
     if (Session.get('lastPos') == undefined) {
       Session.set('lastPos', pos);
     }
@@ -32,6 +32,7 @@ tracking = function() {
             Session.set('routeStep', x);
             //insert code here if on track
             offtrack = true;
+            Session.set('offTrack', 0);
             outcome = "I'm ok, in step " + Session.get('routeStep') + " of my trip.";
           }
         }
@@ -39,13 +40,30 @@ tracking = function() {
         $("#myPathText").text("End of path at box " + Session.get('routeStep'));
       }
       if (offtrack == false) {
-        //insert code here if off track
+                //insert code here if off track
+        if (Session.get('offTrack') == 0) {
+          $("#myPathText").text(outcome).fadeIn('fast').css('color', '#f0ad4e');
+          Session.set('offTrack', (Session.get('offTrack') + 1));
+        } else if (Session.get('offTrack') == 1) {
+          var alertMessage = ("Your friend " + Meteor.user().profile.name + " has deviated from their safe path! You should check on them.");
+
+          for (i = 0; i< friendList.findOne({userId : Meteor.userId()}).friends.length; i++) {
+            var friend = friendList.findOne({userId : Meteor.userId()}).friends[i];
+            var number = Meteor.users.findOne({_id : friend}).profile.smsAddress;
+            Meteor.call('sendEmail', number, alertMessage);
+          }
+          $("#myPathText").text("You've deviated from your path, we're texting your friends!").fadeIn('fast').css('color', '#d9534f');
+          Session.set('offTrack', (Session.get('offTrack') + 1));
+        } else {
+          $("#myPathText").text("You've deviated from your path, we're texting your friends!").fadeIn('fast').css('color', '#d9534f');
+          Session.set('offTrack', (Session.get('offTrack') + 1));
+        }
       }
       $("#myPathText").text(outcome);
       Session.set('lastPos', pos);
     }
     //fire if less than min distance from previous pos
-    else {
+    else if (Session.get('idle') != 0 && offtrack == true){
       if (Session.get('idle') != 0) {
         $("#myPathText").hide().text("You haven't moved in " + ((Session.get('idle')) * 0.5) + " minute(s).").fadeIn('fast').css('color', '#f0ad4e');
       }
@@ -65,12 +83,11 @@ tracking = function() {
         }
       }
     }
-  })
 }
 recording = function() {
-  navigator.geolocation.getCurrentPosition(function(position) {
-    var pos = new google.maps.LatLng(position.coords.latitude,
-      position.coords.longitude);
+
+    var pos = new google.maps.LatLng(Markers.findOne({userId : Meteor.userId()}).positionLat,
+      Markers.findOne({userId : Meteor.userId()}).positionLon);
     //if testmode is active overwrite locale data with dummy data
     if (Session.get('testMode') == true) {
       pos = new google.maps.LatLng(Session.get('startLat'), Session.get('startLng'))
@@ -84,7 +101,7 @@ recording = function() {
       }
     });
     console.log(pos);
-  })
+
 }
 allowDrop = function(ev) {
   ev.preventDefault();

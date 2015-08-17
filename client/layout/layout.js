@@ -5,6 +5,7 @@ Session.set('routeStep', 0);
 //current point difference set to less than 1 meter for idling. 
 Session.set('speed', 1);
 Session.set('idle', 0);
+Session.set('offTrack', 0);
 Session.set('start', false);
 //hardcode testMode flag true or false, true will overwrite GPS to step north east by .00001 lat and long, or 1 m step lat and long
 Session.set('testMode', false);

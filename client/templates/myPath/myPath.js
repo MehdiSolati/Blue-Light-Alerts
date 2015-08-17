@@ -1,15 +1,4 @@
 if (Meteor.isClient) {
-  Template.index.rendered = function() {
-    if (Polylines.findOne({
-        _id: Meteor.user().profile.polyline
-      }).position === undefined) {
-      document.getElementById("recordPath").style.display = "block";
-      document.getElementById("resetPath").style.display = "none";
-    } else {
-      document.getElementById("recordPath").style.display = "none";
-      document.getElementById("resetPath").style.display = "block";
-    }
-  };
   Template.myPath.rendered = function() {
     var recordPath;
     $('#go').click(function() {
@@ -35,8 +24,8 @@ if (Meteor.isClient) {
     });
     $('#stop').click(function() {
       clearInterval(recordPath);
-      navigator.vibrate(1000);
       $("#myPathText").hide().text("We stopped your recording! Hold on for refresh.").fadeIn('fast').css('color', '#d9534f');
+      navigator.vibrate(1000);
       window.setTimeout(function() {
         window.location.reload();
       }, 3000);
@@ -54,8 +43,8 @@ if (Meteor.isClient) {
           position: null
         }
       });
-      navigator.vibrate(1000);
       $("#myPathText").hide().text("Poooof, your path is gone! Hold on for refresh.").fadeIn('fast').css('color', '#f0ad4e');
+      navigator.vibrate(1000);
       window.setTimeout(function() {window.location.reload();}, 3000);
     },
 
