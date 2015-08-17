@@ -89,16 +89,25 @@ recording = function() {
       }
 
 
-    allowDrop=   function (ev) {
+allowDrop=   function (ev) {
     ev.preventDefault();
 }
 drag=function (ev) {
     ev.dataTransfer.setData("text", ev.target.id);
 }
 
-drop=function (ev) {
+dropdanger=function (ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
     ev.target.appendChild(document.getElementById(data));
-    console.log("ok");
+   document.getElementById("warning").innerHTML = "WARNING: You are in Sos Mode";
+}
+
+dropsafe=function (ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+    document.getElementById("warning").innerHTML = "Enter Password to Exit SosMode"
+     document.getElementById("sospass").style.display="block";
+     document.getElementById("sostext").focus();
 }

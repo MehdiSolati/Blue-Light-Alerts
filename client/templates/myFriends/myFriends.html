@@ -42,23 +42,29 @@
 		{{/each}}
 	</ol>
 
-<div class="container">
- 	<!-- Trigger the modal with a button -->
-  	
-	<!-- Modal -->
-  	<div class="modal fade" id="myModal" role="dialog">
-    	<div class="modal-dialog">
-    		<div class="modal-content">
-       			<div class="modal-body">
-       					<p></p>
-          			<p style="color:red;">Drag icon into box to sent SOS msg to all your friends.</p>
+	<div class="container">
+ 		<div class="modal fade" id="myModal" role="dialog">
+     		<div class="modal-dialog">
+    			<div class="modal-content"  style="height:300px;">
+       				<div class="modal-body">
+       					<p class="warning" id="warning" style="color:#d9534f; text-align:center;">Drag icon into dangerbox to sent SOS msg to all your friends.</p>
+						
+						<div id="safezone" ondrop="dropsafe(event)" ondragover="allowDrop(event)">
+  						<img src="img/blicon.png" draggable="true" ondragstart="drag(event)" id="drag1" height="100">
+  						
+						</div>
+						<i class="fa fa-share fa-4x"></i>
+						<i class="fa fa-share fa-4x"></i>
+						<i class="fa fa-share fa-4x"></i>
+						<i class="fa fa-share fa-4x"></i>
+          		
+          				<div id="dangerzone" ondrop="dropdanger(event)" ondragover="allowDrop(event)">
 
-          		<img id="drag1" src="img/blicon.png" draggable="true" ondragstart="drag(event)" width="50" height="50">
-          		<i class="fa fa-share"></i><i class="fa fa-share"></i><i class="fa fa-share"></i>
-<i class="fa fa-share"></i>
-          			
-          			<div id="dropbox" ondrop="drop(event)" ondragover="allowDrop(event)" style="float:right;"></div>
-          			
+          				</div>
+          				<div id="sospass" style="display:none;">
+          				password:<input type="text" id="sostext" style="border-radius:5px;">
+
+          				</div>
        			</div>
      		</div>
     	</div>

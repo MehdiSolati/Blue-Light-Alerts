@@ -1,12 +1,5 @@
 if (Meteor.isClient) {
 
-
-
-
-
-
-
-  
 Session.setDefault("distance", "mile");
 
   Template.friendsList.events({
