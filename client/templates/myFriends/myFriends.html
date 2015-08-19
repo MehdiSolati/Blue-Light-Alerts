@@ -33,7 +33,7 @@
 	<h3>Friends List - Distances</h3>
 	<btn class="btn btn-info mile" title="Distance in Miles" >Miles</btn>
 	<btn class="btn btn-success yard" title="Distance in Yards" >Yard</btn>
-	<btn class="btn btn-warning calorie fa fa-heart" title="Walk to your friend, burn the following amount of calories, lets get moving!!"></btn>
+	<btn class="btn btn-warning calorie fa fa-heart" title="Bases on a 150lb person, walking the average walk rate of 3.1per mile"></btn>
 	<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Sos</button>
 	
 	<ol>
@@ -45,32 +45,36 @@
 	<div class="container">
  		<div class="modal fade" id="myModal" role="dialog">
      		<div class="modal-dialog">
-    			<div class="modal-content"  style="height:300px;">
+    			<div class="modal-content sosmodal"  style="height:300px;">
        				<div class="modal-body">
-       					<p class="warning" id="warning" style="color:#d9534f; text-align:center;">Drag icon into dangerbox to sent SOS msg to all your friends.</p>
+       					<p class="warning" id="warning">Drag icon into dangerbox to sent SOS msg to all your friends.</p>
 						
 						<div id="safezone" ondrop="dropsafe(event)" ondragover="allowDrop(event)">
   						<img src="img/blicon.png" draggable="true" ondragstart="drag(event)" id="drag1" height="100">
   						
 						</div>
+						<span id="test">
 						<i class="fa fa-share fa-4x"></i>
 						<i class="fa fa-share fa-4x"></i>
 						<i class="fa fa-share fa-4x"></i>
-						<i class="fa fa-share fa-4x"></i>
+					    </span>
+					  
+						
+					
           		
           				<div id="dangerzone" ondrop="dropdanger(event)" ondragover="allowDrop(event)">
 
           				</div>
           				<div id="sospass" style="display:none;">
-          				password:<input type="text" id="sostext" style="border-radius:5px;">
+          				Enter Password:<input type="text" id="sostext" >
+          				<btn class="btn btn-danger btn-md" id="sosexit">OK!</btn>
 
           				</div>
        			</div>
      		</div>
     	</div>
   	</div>
-  
-</div>
+  </div>
 
 
 

@@ -30,7 +30,7 @@ body {
     float: left;
 width:100px;
 height:100px;
-border:1px solid #046380;
+border:2px dashed #046380;
 border-radius: 50%;
  box-shadow: 0.4em 0 0.6em 0.1em #046380;
 
@@ -41,18 +41,23 @@ border-radius: 50%;
 }
 
 #dangerzone{
-    float: right;
-  
-    width:100px;
- box-shadow: 0.4em 0 0.6em 0.1em #d9534f;
+float: right;
+width:100px;
+box-shadow: 0.4em 0 0.6em 0.1em #d9534f;
 height:100px;
 border-radius: 50%;
-border:1px solid #d9534f;
+border:2px dashed #d9534f;
 }
 
+.fa-reply{
+    color:#046380!important;
+}
 #sospass{
     padding-top: 10%;
     font-family: initial !important;
-    color: black !important;
+   
     height:20%;
 }
+
+
+

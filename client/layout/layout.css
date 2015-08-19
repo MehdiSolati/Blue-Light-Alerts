@@ -44,6 +44,13 @@ border: 2px dashed #A7A37E;
 border-radius: 5px;
 }
 
+.sosmodal{
+
+border:5px dashed #A7A37E!important;
+text-align: center;
+color:#d9534f;
+}
+
 .fancytoggles{
 
 font: 1.3em 'Lobster Two', Helvetica, sans-serif;

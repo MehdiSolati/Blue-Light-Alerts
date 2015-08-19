@@ -1,5 +1,80 @@
 if (Meteor.isClient) {
 
+var i=1;
+
+allowDrop=   function (ev) {
+    ev.preventDefault();
+}
+drag=function (ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+
+dropdanger=function (ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+   document.getElementById("warning").innerHTML = "WARNING: You are in SOS-Mode. Drag Bluelight Icon back to Exit";
+   $('.fa-share').addClass('fa-reply');
+   $('.fa-share').removeClass('fa-share');
+}
+
+dropsafe=function (ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+    document.getElementById("warning").innerHTML = "Enter Password to Exit SosMode"
+    document.getElementById("sospass").style.display="block";
+    document.getElementById("sostext").focus();
+    document.getElementById("dangerzone").removeAttribute("ondrop");
+
+
+}
+
+
+Template.friendsList.events({
+  'click #sosexit':function(){
+    var danger="danger"
+    var password="pass"
+  
+    var attempt=document.getElementById("sostext").value;
+    
+    if(attempt==password){
+      if (confirm('Are you sure you are safe and want to exit SOS-mode?')) {
+      Session.set("Sosmode", "soslvl1"); 
+      document.getElementById("warning").innerHTML = "Exited SOS-mode"
+      document.getElementById("sospass").style.display="none";
+      document.getElementById("dangerzone").setAttribute('ondrop','dropdanger(event)');
+      i=1;
+       }
+    }   
+
+    else if(attempt==danger){
+      if (confirm('Are you sure you are safe and wants to exit out of SOS-mode?')) {
+      Session.set("Sosmode", "soslvl2"); 
+      document.getElementById("warning").innerHTML = "Exited SOS-mode"
+      document.getElementById("sospass").style.display="none";
+      document.getElementById("dangerzone").setAttribute('ondrop','dropdanger(event)');
+      i=1;
+      } else {
+       console.log("no Exit");
+      }
+    }
+    
+    else{
+        document.getElementById("warning").innerHTML = "Invalid Password, Attempt ("+i+")";
+        i++;
+        console.log(i);
+        if(i==6){
+        document.getElementById("warning").innerHTML = "Maximum Attempt Exceeded, Dockin in SOSModes For 10mins"
+        document.getElementById("sospass").style.display="none";
+        }
+      }
+   
+    }
+  });
+
+Session.setDefault("Sosmode", "Soslvl0");
+
 Session.setDefault("distance", "mile");
 
   Template.friendsList.events({
@@ -46,22 +121,19 @@ var distance = R * c;
 
 if(Session.get("distance")==="mile"){
   var miles=distance*0.621371;
-  var rounded = Math.round( miles * 10 ) / 10;
-  var fixed = rounded.toFixed(2);
+  var fixed = miles.toFixed(2);
   var finaldist=fixed+" miles";
  }
  else if(Session.get("distance")==="yard"){
   var miles=distance*0.621371;
   var yard=miles*1760;
-  var rounded = Math.round( yard * 10 ) / 10;
-  var fixed = rounded.toFixed(0);
+  var fixed = yard.toFixed(0);
   var finaldist=fixed+" yards";
   }
  else if(Session.get("distance")==="calorie"){
   var miles=distance*0.621371;
-  var calorie=miles*85
-  var rounded = Math.round( calorie * 10 ) / 10;
-  var fixed = rounded.toFixed(0);
+  var calorie=miles*80;
+  var fixed = calorie.toFixed(0);
   var finaldist=fixed+" calorie";
   }
   list.push({
