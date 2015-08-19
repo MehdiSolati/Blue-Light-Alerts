@@ -1,87 +1,70 @@
 <template name="index">
-	{{#if currentUser}}
-	
-{{> userCheck}}
-<div id="needMobile" style="display:none;">
-	<div class="container">
-  <div class="row">
-    <div class="col-sm-2"></div>
-    <div class="col-sm-8"><div class="content">
+  {{#if currentUser}} {{> userCheck}}
+  <div id="needMobile" style="display:none;">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+          <div class="content">
 
-{{> getNumber}}
+            {{> getNumber}}
 
-
-    </div></div>
-    <div class="col-sm-2"></div>
+          </div>
+        </div>
+        <div class="col-sm-2"></div>
+      </div>
+    </div>
   </div>
-</div>
-</div>
 
+  <div id="main" style="display:block;">
 
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-9" id="myMap">
+          <div class="content">
+            <div id="myPath" style="display:none;">
+              {{> myPath}}
+              <h2 id="myPathText"></h2>
+            </div>
+            <div id="myMapOptions" style="display:block;">
+            </div>
 
+            {{> map}}
 
-	<div id="main" style="display:block;">
-		
+          </div>
 
+        </div>
 
-        <div class="container">
-  <div class="row">
-    <div class="col-sm-9" id="myMap"><div class="content">
-<div id="myPath" style="display:none;">
-  {{> myPath}}
+        <div class="col-sm-9" id="myFriends" style="display:none;">
+          <div class="content">
+            {{> myFriends}}
+          </div>
+        </div>
+
+        <div class="col-sm-3">
+          <div class="">
+            {{> friendsList}}</div>
+        </div>
+      </div>
     </div>
-    <div id="myMapOptions" style="display:block;">
-    </div>
 
-{{> map}}
-
-    </div>
-
-
-    </div>
-
-
-
-
-    <div class="col-sm-9" id="myFriends" style="display:none;"><div class="content">
-      {{> myFriends}}
-    </div>
-    </div>
-
-
-
-
-    <div class="col-sm-3"><div class="">
-    {{> friendsList}}</div></div>
   </div>
-</div>
+  {{else}}
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-2"></div>
+      <div class="col-sm-8">
+        <div class="content">
+          <button id="facebook-login" class="btn btn-default"> Login with Facebook</button>
+        </div>
 
-
- 
-        
-
-				
-		</div>
-		{{else}}
-<div class="container">
-  <div class="row">
-    <div class="col-sm-2"></div>
-    <div class="col-sm-8">
-    	<div class="content">
-<button id="facebook-login" class="btn btn-default"> Login with Facebook</button>
-    	</div>
-    
-</div>
-    <div class="col-sm-2"></div>
+      </div>
+      <div class="col-sm-2"></div>
+    </div>
   </div>
-</div>
-		
 
-
-		{{/if}}
+  {{/if}}
 </template>
 
 <template name="userCheck">
-	</template>
-
-
+</template>
