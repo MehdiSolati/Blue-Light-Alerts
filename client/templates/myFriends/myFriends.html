@@ -1,21 +1,19 @@
 <template name="myFriends">
-<div class="container" style="max-width:100%; height:100%" >
-  <div class="row">
-    <div class="col-sm-12">
-{{> addFriend}}
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-6">
-    {{> friendRequests}}</div>
-    <div class="col-sm-6">
-    {{> friendsPending}}</div>
-  </div>
-</div>
-
-
-
-
+	<div class="container" style="max-width:100%; height:100%" >
+  		<div class="row">
+    		<div class="col-sm-12">
+				{{> addFriend}}
+    		</div>
+  		</div>
+  		<div class="row">
+    		<div class="col-sm-6">
+    			{{> friendRequests}}
+    		</div>
+    		<div class="col-sm-6">
+    			{{> friendsPending}}
+  			</div>
+  		</div>
+	</div>
 </template>
 
 
@@ -33,14 +31,10 @@
 	<h3>Friends List - Distances</h3>
 	<btn class="btn btn-info mile" title="Distance in Miles" >Miles</btn>
 	<btn class="btn btn-success yard" title="Distance in Yards" >Yard</btn>
-<<<<<<< HEAD
+
 	<btn class="btn btn-warning calorie fa fa-heart" title="Bases on a 150lb person, walking the average walk rate of 3.1per mile"></btn>
 	<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Sos</button>
-=======
-	<btn class="btn btn-warning calorie fa fa-heart" title="Walk to your friend, burn the following amount of calories, lets get moving!!">Calories</btn>
-	<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">SOS</button>
->>>>>>> e355aa1c04e987edaf6371511e22d2e424e3cae9
-	
+
 	<ol>
 		{{#each friendsList}}
 		<li>{{this.name}}&nbsp;<i class="fa fa-envelope-o" title="Sent a msg!"></i>&nbsp;-&nbsp;{{this.distance}}</li>		
@@ -55,34 +49,27 @@
        					<p class="warning" id="warning">Drag icon into dangerbox to sent SOS msg to all your friends.</p>
 						
 						<div id="safezone" ondrop="dropsafe(event)" ondragover="allowDrop(event)">
-  						<img src="img/blicon.png" draggable="true" ondragstart="drag(event)" id="drag1" height="100">
-  						
-						</div>
+  							<img src="img/blicon.png" draggable="true" ondragstart="drag(event)" id="drag1" height="100">
+  						</div>
+						
 						<span id="test">
-						<i class="fa fa-share fa-4x"></i>
-						<i class="fa fa-share fa-4x"></i>
-						<i class="fa fa-share fa-4x"></i>
+							<i class="fa fa-share fa-4x"></i>
+							<i class="fa fa-share fa-4x"></i>
+							<i class="fa fa-share fa-4x"></i>
 					    </span>
 					  
-						
-					
-          		
-          				<div id="dangerzone" ondrop="dropdanger(event)" ondragover="allowDrop(event)">
-
-          				</div>
+					  	<div id="dangerzone" ondrop="dropdanger(event)" ondragover="allowDrop(event)">
+					  	</div>
+          				
           				<div id="sospass" style="display:none;">
-          				Enter Password:<input type="text" id="sostext" >
-          				<btn class="btn btn-danger btn-md" id="sosexit">OK!</btn>
-
+          					Enter Password:<input type="password" id="sostext" >
+          					<btn class="btn btn-danger btn-md" id="sosexit">OK!</btn>
           				</div>
-       			</div>
-     		</div>
-    	</div>
+       				</div>
+     			</div>
+    		</div>
+  		</div>
   	</div>
-  </div>
-
-
-
 </div>
 </template>
 

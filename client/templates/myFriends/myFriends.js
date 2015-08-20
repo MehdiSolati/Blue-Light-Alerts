@@ -30,13 +30,12 @@ dropsafe=function (ev) {
 
 }
 
-
 Template.friendsList.events({
   'click #sosexit':function(){
     var danger="danger"
     var password="pass"
-  
     var attempt=document.getElementById("sostext").value;
+    document.getElementById("sostext").value="";
     
     if(attempt==password){
       if (confirm('Are you sure you are safe and want to exit SOS-mode?')) {
@@ -44,6 +43,53 @@ Template.friendsList.events({
       document.getElementById("warning").innerHTML = "Exited SOS-mode"
       document.getElementById("sospass").style.display="none";
       document.getElementById("dangerzone").setAttribute('ondrop','dropdanger(event)');
+      i=1;
+      }
+    }   
+
+    else if(attempt==danger){
+      if (confirm('Are you sure you are safe and wants to exit out of SOS-mode?')) {
+      Session.set("Sosmode", "soslvl2"); 
+      document.getElementById("warning").innerHTML = "Exited SOS-mode"
+      document.getElementById("sospass").style.display="none";
+      document.getElementById("dangerzone").setAttribute('ondrop','dropdanger(event)');
+      i=1;
+      } 
+    }
+    
+    else{
+        document.getElementById("warning").innerHTML = "Invalid Password, Attempt ("+i+")";
+        i++;
+        if(i==6){
+        document.getElementById("warning").innerHTML = "Maximum Attempt Exceeded, Dockin in SOSModes For 10mins"
+        document.getElementById("sospass").style.display="none";
+
+        setTimeout(function(){   
+        document.getElementById("sospass").style.display="block";
+        document.getElementById("warning").innerHTML = "Enter Password to Exit SosMode"
+        }, 
+        600000);
+        }
+      }
+    }
+  });
+
+  Template.friendsList.events({
+  'keyup #sostext':function(e){ 
+    if(e.type=="keyup" && e.which ==13){
+    var danger="danger"
+    var password="pass"
+    var attempt=document.getElementById("sostext").value;
+    document.getElementById("sostext").value="";
+    
+    if(attempt==password){
+      if (confirm('Are you sure you are safe and want to exit SOS-mode?')) {
+      Session.set("Sosmode", "soslvl1"); 
+      document.getElementById("warning").innerHTML = "Exited SOS-mode"
+      document.getElementById("sospass").style.display="none";
+      document.getElementById("dangerzone").setAttribute('ondrop','dropdanger(event)');
+
+     
       i=1;
        }
     }   
@@ -55,26 +101,28 @@ Template.friendsList.events({
       document.getElementById("sospass").style.display="none";
       document.getElementById("dangerzone").setAttribute('ondrop','dropdanger(event)');
       i=1;
-      } else {
-       console.log("no Exit");
-      }
+      } 
     }
     
     else{
         document.getElementById("warning").innerHTML = "Invalid Password, Attempt ("+i+")";
         i++;
-        console.log(i);
         if(i==6){
         document.getElementById("warning").innerHTML = "Maximum Attempt Exceeded, Dockin in SOSModes For 10mins"
         document.getElementById("sospass").style.display="none";
+
+        setTimeout(function(){   
+        document.getElementById("sospass").style.display="block";
+        document.getElementById("warning").innerHTML = "Enter Password to Exit SosMode"
+        }, 
+        600000);
         }
       }
-   
+     }
     }
   });
 
 Session.setDefault("Sosmode", "Soslvl0");
-
 Session.setDefault("distance", "mile");
 
   Template.friendsList.events({
@@ -105,19 +153,8 @@ Session.setDefault("distance", "mile");
         lon2 = Markers.findOne({userId : friendID}).positionLon;
         lat1= Markers.findOne({userId : Meteor.userId()}).positionLat;
         lon1= Markers.findOne({userId : Meteor.userId()}).positionLon;
-
-var R = 6371; // km 
-//has a problem with the .toRad() method below.
-var x1 = lat2-lat1;
-var dLat = x1.toRad();  
-var x2 = lon2-lon1;
-var dLon = x2.toRad();  
-var a = Math.sin(dLat/2) * Math.sin(dLat/2) + 
-Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) * 
-Math.sin(dLon/2) * Math.sin(dLon/2);  
-var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-var distance = R * c; 
-
+        
+        var distance=haversine(lat1,lon1,lat2,lon2);
 
 if(Session.get("distance")==="mile"){
   var miles=distance*0.621371;

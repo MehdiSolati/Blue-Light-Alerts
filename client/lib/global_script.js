@@ -86,6 +86,21 @@ tracking = function() {
     }
     }
 }
+haversine=function(lat1,lon1,lat2,lon2){
+    var R = 6371; 
+    var x1 = lat2-lat1;
+    var dLat = x1.toRad();  
+    var x2 = lon2-lon1;
+    var dLon = x2.toRad();  
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) + 
+    Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2);  
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    var distance = R * c;  // km 
+    return distance;
+
+}
+
 recording = function() {
 
     var pos = new google.maps.LatLng(Markers.findOne({userId : Meteor.userId()}).positionLat,
@@ -103,5 +118,5 @@ recording = function() {
       }
     });
     console.log(pos);
-
+}
 
