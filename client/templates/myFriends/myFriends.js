@@ -1,5 +1,24 @@
 if (Meteor.isClient) {
 
+
+
+Session.setDefault("Sosmode", "Soslvl0");
+Session.setDefault("distance", "mile");
+
+
+Template.friendsList.events({
+  'click #poke':function(){
+    var email = "9174768299@tmomail.net";
+    var message = (this.name + " pokes you from "+this.distance+" aways");
+    var sosmsg = (Meteor.user().services.facebook.first_name + 
+     " is in trouble, here is his location https://www.google.com/maps/dir/");
+      
+    Meteor.call('sendEmail', email, message);
+  }
+});
+
+
+
 var i=1;
 
 allowDrop=   function (ev) {
@@ -122,8 +141,7 @@ Template.friendsList.events({
     }
   });
 
-Session.setDefault("Sosmode", "Soslvl0");
-Session.setDefault("distance", "mile");
+
 
   Template.friendsList.events({
     'click .yard': function() {
@@ -393,3 +411,4 @@ if(Session.get("distance")==="mile"){
     }
   });
 }
+

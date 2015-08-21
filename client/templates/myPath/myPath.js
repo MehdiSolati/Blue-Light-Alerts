@@ -1,27 +1,24 @@
 if (Meteor.isClient) {
-  Template.myPath.rendered = function() {
-    var recordPath;
+
+Template.myPath.rendered = function() {
+  var recordPath;
     $('#go').click(function() {
       $("#myPathText").hide().text("We're recording your path now! (Hit 'Stop' when done)").fadeIn('fast').css('color', '#62c462');
       navigator.vibrate(1000);
       navigator.geolocation.getCurrentPosition(function(position) {
-        var pos = new google.maps.LatLng(position.coords.latitude,
-          position.coords.longitude);
+        var pos = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
         if (Meteor.user().profile.polyline === undefined) {
           var polylinesId = Polylines.insert({
-            userId: (Meteor.user()._id)
+          userId: (Meteor.user()._id)
           });
-          Meteor.users.update({
-            _id: Meteor.userId()
-          }, {
-            $set: {
-              'profile.polyline': polylinesId
-            }
+          Meteor.users.update({_id: Meteor.userId()},{$set:{'profile.polyline': polylinesId}
           });
+          console.log(polylinedId);
         }
       })
       recordPath = setInterval(recording, 15000)
     });
+    
     $('#stop').click(function() {
       clearInterval(recordPath);
       $("#myPathText").hide().text("We stopped your recording! Hold on for refresh.").fadeIn('fast').css('color', '#d9534f');
@@ -34,7 +31,7 @@ if (Meteor.isClient) {
   };
 
 
-  Template.myPath.events({
+Template.myPath.events({
     'click #reset': function() {
       Polylines.update({
         _id: Meteor.user().profile.polyline
@@ -43,10 +40,11 @@ if (Meteor.isClient) {
           position: null
         }
       });
+      
       $("#myPathText").hide().text("Poooof, your path is gone! Hold on for refresh.").fadeIn('fast').css('color', '#f0ad4e');
       navigator.vibrate(1000);
       window.setTimeout(function() {window.location.reload();}, 3000);
-    },
+      },
 
     'click #activateTest':function(){
       if(Session.get('testMode')==false){
