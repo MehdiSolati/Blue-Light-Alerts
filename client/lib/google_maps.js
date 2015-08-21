@@ -198,8 +198,10 @@ google.maps.event.addListener(friend, 'dblclick', function() {
              message = (Meteor.user().services.facebook.first_name + " wants to meet up, here are some directions...https://www.google.com/maps/dir/" + (this.lat) + "," + (this.lon) + "/" + (Meteor.user().profile.position.G) + "," + (Meteor.user().profile.position.K));
             Meteor.call('sendEmail', email, message);
             window.alert('SMS sent.', 'success');
-            console.log(email)
-          
+           
+
+            console.log(message);
+
           });
 
 

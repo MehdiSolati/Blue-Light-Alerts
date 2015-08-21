@@ -9,11 +9,30 @@ Session.setDefault("distance", "mile");
 Template.friendsList.events({
   'click #poke':function(){
     var email = "9174768299@tmomail.net";
+
     var message = (this.name + " pokes you from "+this.distance+" aways");
-    var sosmsg = (Meteor.user().services.facebook.first_name + 
-     " is in trouble, here is his location https://www.google.com/maps/dir/");
-      
+    var sosmsg = (this.name + 
+     " is in trouble, location at : https://www.google.com/maps/dir/41.052953,-73.53986/41.0529534,-73.5398648");
+    
+    if (Session.get("Sosmode")==="Soslvl1"){
+        Meteor.call('sendEmail', email, sosmsg);
+          window.alert('SOSText Send, Help Is On The Way');
+       
+   
+    }else if(Session.get("Sosmode")==="Soslvl2"){
+
+      var message="Hurry up Ryan, we needa talk code";
+
+       Meteor.call('sendEmail', email, message);
+
+     }
+
+    else
+    {
+   
     Meteor.call('sendEmail', email, message);
+   
+  }
   }
 });
 
@@ -33,6 +52,7 @@ dropdanger=function (ev) {
     var data = ev.dataTransfer.getData("text");
     ev.target.appendChild(document.getElementById(data));
    document.getElementById("warning").innerHTML = "WARNING: You are in SOS-Mode. Drag Bluelight Icon back to Exit";
+    Session.set("Sosmode", "Soslvl1"); 
    $('.fa-share').addClass('fa-reply');
    $('.fa-share').removeClass('fa-share');
 }
@@ -51,14 +71,13 @@ dropsafe=function (ev) {
 
 Template.friendsList.events({
   'click #sosexit':function(){
-    var danger="danger"
-    var password="pass"
+    var danger="sos"
+    var password="blue"
     var attempt=document.getElementById("sostext").value;
     document.getElementById("sostext").value="";
     
     if(attempt==password){
       if (confirm('Are you sure you are safe and want to exit SOS-mode?')) {
-      Session.set("Sosmode", "soslvl1"); 
       document.getElementById("warning").innerHTML = "Exited SOS-mode"
       document.getElementById("sospass").style.display="none";
       document.getElementById("dangerzone").setAttribute('ondrop','dropdanger(event)');
@@ -68,7 +87,7 @@ Template.friendsList.events({
 
     else if(attempt==danger){
       if (confirm('Are you sure you are safe and wants to exit out of SOS-mode?')) {
-      Session.set("Sosmode", "soslvl2"); 
+      Session.set("Sosmode", "Soslvl2"); 
       document.getElementById("warning").innerHTML = "Exited SOS-mode"
       document.getElementById("sospass").style.display="none";
       document.getElementById("dangerzone").setAttribute('ondrop','dropdanger(event)');
@@ -96,14 +115,13 @@ Template.friendsList.events({
   Template.friendsList.events({
   'keyup #sostext':function(e){ 
     if(e.type=="keyup" && e.which ==13){
-    var danger="danger"
-    var password="pass"
+    var danger="sos"
+    var password="blue"
     var attempt=document.getElementById("sostext").value;
     document.getElementById("sostext").value="";
     
     if(attempt==password){
       if (confirm('Are you sure you are safe and want to exit SOS-mode?')) {
-      Session.set("Sosmode", "soslvl1"); 
       document.getElementById("warning").innerHTML = "Exited SOS-mode"
       document.getElementById("sospass").style.display="none";
       document.getElementById("dangerzone").setAttribute('ondrop','dropdanger(event)');
@@ -115,7 +133,7 @@ Template.friendsList.events({
 
     else if(attempt==danger){
       if (confirm('Are you sure you are safe and wants to exit out of SOS-mode?')) {
-      Session.set("Sosmode", "soslvl2"); 
+      Session.set("Sosmode", "Soslvl2"); 
       document.getElementById("warning").innerHTML = "Exited SOS-mode"
       document.getElementById("sospass").style.display="none";
       document.getElementById("dangerzone").setAttribute('ondrop','dropdanger(event)');
