@@ -76,8 +76,14 @@ setInterval(function(){
     // if testmode is active overwrite locale data with dummy data
 
      if(Session.get('testMode')==true){
-          Session.set('startLat',parseFloat(Session.get('startLat'))+parseFloat(Session.get('latOffset')));
-          Session.set('startLng',parseFloat(Session.get('startLng'))+parseFloat(Session.get('lngOffset')));
+      lat=Session.get('startLat')-.00004;
+      lng=Session.get('startLng')-.000002;
+
+      // lat=Session.get('startLat');
+      // lng=Session.get('startLng');
+          
+          Session.set('startLat',lat);
+          Session.set('startLng',lng);
       pos = new google.maps.LatLng(Session.get('startLat'), Session.get('startLng'))
      }
 
@@ -150,7 +156,7 @@ google.maps.event.addListener(marker, 'click', function() {
     map.setCenter(marker.getPosition());
   });
 
-  },Session.get('gpsRefresh'))
+  },1000)
 
 
 
@@ -183,14 +189,12 @@ google.maps.event.addListener(marker, 'click', function() {
             }).profile.name) + ' is here!')
       });
 
-//Keynotes
 
 google.maps.event.addListener(friend, 'click', function() {
     map.setCenter(friend.getPosition());
     infowindow.setContent(this.title);
             infowindow.open(map, this);
   });
-
 
 google.maps.event.addListener(friend, 'dblclick', function() {
              email = this.sms;

@@ -3,21 +3,17 @@ Session.set('gpsRefresh',1000);
 
 Session.set('routeStep', 0);
 //current point difference set to less than 1 meter for idling. 
-Session.set('speed', 10);
+Session.set('speed', 5);
 Session.set('idle', 0);
 Session.set('offTrack', 0);
 Session.set('start', false);
 //hardcode testMode flag true or false, true will overwrite GPS to step north east by .00001 lat and long, or 1 m step lat and long
 Session.set('testMode', false);
-Session.set('trackRefresh',5000);
+Session.set('trackRefresh',6000);
 Session.set('idleAlert', false);
 //hardcode start location here
-Session.set('startLat', 41.0528);
-Session.set('startLng', -73.5398);
-Session.set('latOffset',0);
-Session.set('lngOffset',0);
-Session.set('step',0.0000089552);
-Session.set('meterStep',1);
+Session.set('startLat', 41.053209);
+Session.set('startLng', -73.539337);
 //toggle tracking function
 Session.set('trackSwitch',false);
 
@@ -64,7 +60,7 @@ Template.layout.events({
       });
       myPath.setMap(map);
       routeBoxer = new RouteBoxer();
-      boxes = routeBoxer.box(myPathCoordinates, .04572);
+      boxes = routeBoxer.box(myPathCoordinates, .02572);
       Session.set('boxRange', boxes);
 
       drawBoxes(boxes);
