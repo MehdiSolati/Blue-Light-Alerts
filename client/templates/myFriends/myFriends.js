@@ -16,14 +16,15 @@ Template.friendsList.events({
     
     if (Session.get("Sosmode")==="Soslvl1"){
         Meteor.call('sendEmail', email, sosmsg);
-          window.alert('SOSText Send, Help Is On The Way');
+          window.alert('SOS Text is Sent, Help Is On The Way');
        
    
     }else if(Session.get("Sosmode")==="Soslvl2"){
 
-      var message="Hurry up Ryan, we needa talk code";
+      var message="Lets take some code";
 
        Meteor.call('sendEmail', email, message);
+        window.alert('trouble');
 
      }
 
@@ -31,6 +32,7 @@ Template.friendsList.events({
     {
    
     Meteor.call('sendEmail', email, message);
+    window.alert('poked');
    
   }
   }
@@ -65,9 +67,9 @@ dropsafe=function (ev) {
     document.getElementById("sospass").style.display="block";
     document.getElementById("sostext").focus();
     document.getElementById("dangerzone").removeAttribute("ondrop");
-
-
 }
+
+
 
 Template.friendsList.events({
   'click #sosexit':function(){
