@@ -1,0 +1,10 @@
+.service-list {
+display: inline-block;
+}
+
+.service-list img
+{
+float:right;
+margin-top:6px;
+margin-left:6px;
+}

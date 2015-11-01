@@ -1,14 +1,3 @@
-Template.map.rendered = function() {
-    if (! Session.get('map'))
-        gmaps.initialize();
-
-      
-}
- 
-Template.map.destroyed = function() {
-    Session.set('map', false);
-}
-
 function detectBrowser() {
   var useragent = navigator.userAgent;
   var mapdiv = document.getElementById("map-canvas");
@@ -21,3 +10,12 @@ function detectBrowser() {
     mapdiv.style.height = '800px';
   }
 }
+
+Template.map.events({
+    'click #map-canvas': function(event) {
+      if (Session.get("followMe")===true){
+        Session.set("followMe", false);
+        console.log("Follow Me False");
+      }
+  }
+});

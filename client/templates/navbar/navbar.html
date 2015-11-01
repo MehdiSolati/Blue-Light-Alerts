@@ -1,0 +1,44 @@
+<template name="navbar">
+
+  <!-- Dropdown Structure -->
+  <ul id="userMenu" class="dropdown-content">
+    <li><a id="myMapNav" href="#">My Map</a></li>
+    <li><a id="myPathNav" href="#">My Path</a></li>
+    <li><a id="myFriendsNav" href="#">My Friends</a></li>
+    <li><a id="logout" href="#">Log Out</a></li>
+  </ul>
+
+  <nav class="light-blue darken-4">
+    <div class="nav-wrapper"> <a id="logo-container" href="/" class="brand-logo signature center">Blue Light Alerts</a>
+      {{#if currentUser}}
+      <ul class="right hide-on-med-and-down valign-wrapper">
+        <li class="service-list"><a class="dropdown-button" href="#!" data-activates="userMenu">{{currentUser.services.google.name}}<img height="50" class="circle valign-wrapper service-list" src="{{currentUser.services.google.picture}}"></a></li>
+      </ul>
+      {{/if}}
+      <ul id="nav-mobile" class="side-nav">
+        {{#if currentUser}}
+        <li class="service-list"><a href="#">{{currentUser.services.google.name}}<img height="50" class="circle valign-wrapper service-list" src="{{currentUser.services.google.picture}}"></a></li>
+        <li class="divider"></li>
+        <li><a id="myMapNav" href="#">My Map</a></li>
+        <li><a id="myPathNav" href="#">My Path</a></li>
+        <li><a id="myFriendsNav" href="#">My Friends</a></li>
+        <li><a id="logout" href="#">Log Out</a></li>
+        {{/if}}
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+
+    </div>
+  </nav>
+
+  <!-- Dropdown Structure -->
+
+  <script>
+    $(document).ready(function() {
+      // Activate the side menu 
+      $(".button-collapse").sideNav({
+        closeOnClick: true
+      });
+      $(".dropdown-button").dropdown();
+    });
+  </script>
+</template>

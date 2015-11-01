@@ -1,70 +1,66 @@
 <template name="index">
-  {{#if currentUser}} {{> userCheck}}
-  <div id="needMobile" style="display:none;">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-8">
-          <div class="content">
+  {{#if currentUser}}
+  <div class="row">
 
-            {{> getNumber}}
+    <div class="col s12 m12 l12">
+      {{#if $.Session.get 'myPath'}}
+      <div class="card-panel hoverable">
+        <p>My Path</p>
+      </div>
+      {{/if}} {{#if $.Session.get 'myFriends'}}
+      <div class="card-panel hoverable">
+        <p>My Friends</p>
+      </div>
+      {{/if}}
+    </div>
 
-          </div>
-        </div>
-        <div class="col-sm-2"></div>
+  </div>
+  <div class="row">
+
+    <div class="col s12 m8 l9">
+      <div class="card-panel hoverable">
+        {{> map}}
       </div>
     </div>
+
+    <div class="col s12 m4 l3 hide-on-small-only">
+      <div class="card-panel hoverable">
+        {{> friendsList}}
+      </div>
+
+    </div>
+
   </div>
-
-  <div id="main" style="display:block;">
-
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-9" id="myMap">
-          <div class="content">
-            <div id="myPath" style="display:none;">
-              {{> myPath}}
-              <h2 id="myPathText"></h2>
-            </div>
-            <div id="myMapOptions" style="display:block;">
-            </div>
-
-            {{> map}}
-
-          </div>
-
-        </div>
-
-        <div class="col-sm-9" id="myFriends" style="display:none;">
-          <div class="content">
-            {{> myFriends}}
-          </div>
-        </div>
-
-        <div class="col-sm-3">
-          <div class="">
-            {{> friendsList}}</div>
-        </div>
+  <div class="row">
+    <div class="col s12 m12 l12">
+      <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+        <a class="btn-floating btn-large red">
+          <i class="large material-icons">add</i>
+        </a>
+        <ul>
+          <li><a id="followMe" class="btn-floating green"><i class="material-icons">person_pin</i></a></li>
+          <li><a id="safeWalk" class="btn-floating orange"><i class="material-icons">directions_walk</i></a></li>
+          <li><a id="sosMode" class="btn-floating red"><i class="material-icons">warning</i></a></li>
+        </ul>
       </div>
     </div>
 
   </div>
+
   {{else}}
-  <div class="container">
+  <div id="userSignIn" class="container">
     <div class="row">
-      <div class="col-sm-2"></div>
-      <div class="col-sm-8">
-        <div class="content">
-          <button id="facebook-login" class="btn btn-default"> Login with Facebook</button>
+      <div class="col s12 m12 l12">
+        <div class="card">
+          <div class="at-form">
+            <h4 class="center">Sign In</h4> 
+            <div class="container">
+              {{#if showOauthServices}} {{> atOauth}} {{/if}} {{#if showError}} {{> atError}} {{/if}} {{#if showResult}} {{> atResult}} {{/if}} {{#if showMessage}} {{> atMessage}} {{/if}}
+            </div>
+          </div>
         </div>
-
       </div>
-      <div class="col-sm-2"></div>
     </div>
   </div>
-
   {{/if}}
-</template>
-
-<template name="userCheck">
 </template>
